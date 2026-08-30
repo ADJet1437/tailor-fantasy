@@ -1,0 +1,40 @@
+name: tailorfantasy
+
+# Values come from backend/.env (see .env.example). The defaults after :- keep
+# `docker compose up` working even without one.
+services:
+  tailorfantasy:
+    build: .
+    ports:
+      - "${API_PORT:-8001}:8000"
+    environment:
+      # Inside the network the database is reachable as `db`, not localhost.
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-nailart}:${POSTGRES_PASSWORD:-nailart}@db:5432/${POSTGRES_DB:-nailart}
+      MEDIA_DIR: /app/media
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://localhost:3000}
+    volumes:
+      # bind-mounted so regenerating images needs no image rebuild
+      - ./media:/app/media
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16
+    ports:
+      # 5432 is taken by talosy-backend-db-1, 5444 by play8-db
+      - "${DB_PORT:-5433}:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-nailart}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nailart}
+      POSTGRES_DB: ${POSTGRES_DB:-nailart}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-nailart} -d ${POSTGRES_DB:-nailart}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:
