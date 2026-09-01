@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { productApi, mediaUrl, Product } from '../services/api';
 
@@ -18,16 +18,12 @@ const ShoppingCenter = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    loadProducts();
-  }, [active]);
-
-  const loadProducts = async () => {
+  const loadProducts = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
       // 108 products in the catalog; request them all rather than the default page of 100
-      const response = await productApi.list(200, 0);
+      const response = await productApi.list(200, 0, active ?? undefined);
       setProducts(response.data);
     } catch (err) {
       setError('Failed to load products. Please try again.');
@@ -35,7 +31,11 @@ const ShoppingCenter = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [active]);
+
+  useEffect(() => {
+    loadProducts();
+  }, [loadProducts]);
 
   if (loading) {
     return (
