@@ -62,10 +62,17 @@ def main() -> None:
         name = f"{pa.sku} {suffix}".strip()
         counts[suffix or "(bare SKU)"] += 1
 
-        rows.append({"sku": pa.sku, "name": name, "price_cents": "0", "description": ""})
+        rows.append({
+            "sku": pa.sku,
+            "name": name,
+            "price_cents": "0",
+            "description": "",
+            # whether a detail image exists, so app.seed never needs asset/
+            "detail": str(pa.detail_source is not None).lower(),
+        })
 
     with args.out.open("w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=["sku", "name", "price_cents", "description"])
+        w = csv.DictWriter(fh, fieldnames=["sku", "name", "price_cents", "description", "detail"])
         w.writeheader()
         w.writerows(rows)
 

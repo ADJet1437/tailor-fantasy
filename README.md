@@ -100,12 +100,26 @@ npm run dev          # http://localhost:5173
 npm run build
 ```
 
-### Backend
+### Local (frontend + backend + database)
 
 ```bash
-cd backend
-docker compose up -d          # API on :8001, PostgreSQL on :5433
+cp .env.example .env
+docker compose up -d          # web :5173, API :8001, PostgreSQL :5433
 ```
+
+### Production
+
+DNS for both domains must resolve to the host before the first start, or the
+Let's Encrypt HTTP-01 challenge fails.
+
+```bash
+cp .env.example .env          # set POSTGRES_PASSWORD and ACME_EMAIL
+docker compose -f docker-compose-prod.yaml up -d --build
+docker compose -f docker-compose-prod.yaml run --rm tailorfantasy python -m app.seed
+```
+
+Traefik terminates TLS and routes `tailorfantasy.com` to the frontend and
+`api.tailorfantasy.com` to the backend.
 
 To regenerate product images and reseed the database (run on macOS — HEIC
 decoding uses `sips`):

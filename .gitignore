@@ -70,7 +70,8 @@ go.work
 asset/
 
 # Backend
-backend/media/
+# backend/media/ IS committed (43 MB of WebP) so a clone deploys without rsync.
+# asset/ stays out -- 811 MB of source photos only the Mac pipeline needs.
 backend/.venv/
 backend/__pycache__/
 backend/app/__pycache__/

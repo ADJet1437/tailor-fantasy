@@ -1,109 +1,109 @@
-sku,name,price_cents,description
-B190,B190 Handcrafted Press-On,0,
-B191,B191 Handcrafted Press-On,0,
-B244,B244 Handcrafted Press-On,0,
-B248,B248 Handcrafted Press-On,0,
-C192,C192 Handcrafted Press-On,0,
-C209,C209 Handcrafted Press-On,0,
-C233,C233 Handcrafted,0,
-D162,D162 Handcrafted,0,
-D24322,D24322 Handcrafted,0,
-D24905,D24905 Handcrafted,0,
-D29003,D29003 Handcrafted,0,
-D4905,D4905 Handcrafted,0,
-DH3247,DH3247 Handcrafted Press-On,0,
-DH3248,DH3248 Handcrafted Press-On,0,
-DH3250,DH3250 Handcrafted Press-On,0,
-DH3258,DH3258 Handcrafted Press-On,0,
-DH3266,DH3266 Handcrafted Press-On,0,
-DH3267,DH3267 Handcrafted Press-On,0,
-DH3268,DH3268 Handcrafted Press-On,0,
-DH3269,DH3269 Handcrafted Press-On,0,
-DH3270,DH3270 Handcrafted Press-On,0,
-DH3406,DH3406 Handcrafted Press-On,0,
-DX1901,DX1901 Handcrafted Press-On,0,
-DX1909,DX1909 Handcrafted Press-On,0,
-DX1910,DX1910 Handcrafted Press-On,0,
-DX1911,DX1911 Handcrafted Press-On,0,
-DX1912,DX1912 Handcrafted Press-On,0,
-DX1913,DX1913 Handcrafted Press-On,0,
-DX2944,DX2944 Handcrafted Press-On,0,
-DX3256,DX3256 Handcrafted Press-On,0,
-DX3257,DX3257 Handcrafted Press-On,0,
-DX3259,DX3259 Handcrafted Press-On,0,
-DX3261,DX3261 Handcrafted Press-On,0,
-DX3262,DX3262 Handcrafted Press-On,0,
-DX3263,DX3263 Handcrafted Press-On,0,
-DX3264,DX3264 Handcrafted Press-On,0,
-DX3271,DX3271 Handcrafted Press-On,0,
-DX3272,DX3272 Handcrafted Press-On,0,
-DX3273,DX3273 Handcrafted Press-On,0,
-DX3404,DX3404 Handcrafted Press-On,0,
-DX3407,DX3407 Handcrafted Press-On,0,
-DX3408,DX3408 Handcrafted Press-On,0,
-DX3409,DX3409 Handcrafted Press-On,0,
-DX3410,DX3410 Handcrafted Press-On,0,
-DX3412,DX3412 Handcrafted Press-On,0,
-E124,E124 Handcrafted,0,
-E125,E125 Handcrafted,0,
-E126,E126 Handcrafted,0,
-E127,E127 Handcrafted,0,
-E128,E128 Handcrafted,0,
-E129,E129 Handcrafted,0,
-E130,E130 Handcrafted,0,
-E132,E132 Handcrafted,0,
-E133,E133 Handcrafted,0,
-E145,E145 Handcrafted,0,
-E172,E172 Handcrafted,0,
-E175,E175 Handcrafted,0,
-E180,E180 Handcrafted,0,
-E214,E214 Handcrafted,0,
-E227,E227 Handcrafted,0,
-E229,E229 Handcrafted,0,
-E230,E230 Handcrafted,0,
-E237,E237 Handcrafted,0,
-E366,E366 Handcrafted,0,
-E367,E367 Handcrafted,0,
-E369,E369 Handcrafted,0,
-E370,E370 Handcrafted,0,
-F248,F248 Handcrafted,0,
-F249,F249 Handcrafted,0,
-F251,F251 Handcrafted,0,
-F252,F252 Handcrafted,0,
-XN2402,XN2402 Handcrafted,0,
-YMDY-010,YMDY-010,0,
-YMDY-011,YMDY-011,0,
-YMDY-012,YMDY-012,0,
-YMDY-013,YMDY-013,0,
-YMDY-014,YMDY-014,0,
-YMDY-015,YMDY-015,0,
-YMDY-016,YMDY-016,0,
-YMDY-017,YMDY-017,0,
-YMDY-018,YMDY-018,0,
-YMDY-019,YMDY-019,0,
-YMDY-020,YMDY-020,0,
-YMDY-021,YMDY-021,0,
-YMDY-022,YMDY-022,0,
-YMDY-023,YMDY-023,0,
-YMDY-024,YMDY-024,0,
-YMDY-025,YMDY-025,0,
-YMDY-026,YMDY-026,0,
-YMDY-027,YMDY-027,0,
-YMDY-029,YMDY-029,0,
-YMDY-030,YMDY-030,0,
-YMDY-031,YMDY-031,0,
-YMDY-032,YMDY-032,0,
-YMDY-034,YMDY-034,0,
-YMDY-035,YMDY-035,0,
-YMDY-045,YMDY-045,0,
-YMDY-046,YMDY-046,0,
-YMDY-047,YMDY-047,0,
-YMDY-049,YMDY-049,0,
-YMDY-050,YMDY-050,0,
-YMDY-052,YMDY-052,0,
-YMDY-053,YMDY-053,0,
-YMDY-054,YMDY-054,0,
-YMDY-056,YMDY-056,0,
-YMDY-057,YMDY-057,0,
-YMDY-058,YMDY-058,0,
-YMDY-061,YMDY-061,0,
+sku,name,price_cents,description,detail
+B190,B190 Handcrafted Press-On,0,,true
+B191,B191 Handcrafted Press-On,0,,true
+B244,B244 Handcrafted Press-On,0,,true
+B248,B248 Handcrafted Press-On,0,,true
+C192,C192 Handcrafted Press-On,0,,true
+C209,C209 Handcrafted Press-On,0,,true
+C233,C233 Handcrafted,0,,true
+D162,D162 Handcrafted,0,,true
+D24322,D24322 Handcrafted,0,,true
+D24905,D24905 Handcrafted,0,,true
+D29003,D29003 Handcrafted,0,,true
+D4905,D4905 Handcrafted,0,,true
+DH3247,DH3247 Handcrafted Press-On,0,,true
+DH3248,DH3248 Handcrafted Press-On,0,,true
+DH3250,DH3250 Handcrafted Press-On,0,,true
+DH3258,DH3258 Handcrafted Press-On,0,,true
+DH3266,DH3266 Handcrafted Press-On,0,,true
+DH3267,DH3267 Handcrafted Press-On,0,,true
+DH3268,DH3268 Handcrafted Press-On,0,,true
+DH3269,DH3269 Handcrafted Press-On,0,,true
+DH3270,DH3270 Handcrafted Press-On,0,,true
+DH3406,DH3406 Handcrafted Press-On,0,,true
+DX1901,DX1901 Handcrafted Press-On,0,,true
+DX1909,DX1909 Handcrafted Press-On,0,,true
+DX1910,DX1910 Handcrafted Press-On,0,,true
+DX1911,DX1911 Handcrafted Press-On,0,,true
+DX1912,DX1912 Handcrafted Press-On,0,,true
+DX1913,DX1913 Handcrafted Press-On,0,,true
+DX2944,DX2944 Handcrafted Press-On,0,,true
+DX3256,DX3256 Handcrafted Press-On,0,,true
+DX3257,DX3257 Handcrafted Press-On,0,,true
+DX3259,DX3259 Handcrafted Press-On,0,,true
+DX3261,DX3261 Handcrafted Press-On,0,,true
+DX3262,DX3262 Handcrafted Press-On,0,,false
+DX3263,DX3263 Handcrafted Press-On,0,,true
+DX3264,DX3264 Handcrafted Press-On,0,,true
+DX3271,DX3271 Handcrafted Press-On,0,,true
+DX3272,DX3272 Handcrafted Press-On,0,,true
+DX3273,DX3273 Handcrafted Press-On,0,,true
+DX3404,DX3404 Handcrafted Press-On,0,,true
+DX3407,DX3407 Handcrafted Press-On,0,,true
+DX3408,DX3408 Handcrafted Press-On,0,,true
+DX3409,DX3409 Handcrafted Press-On,0,,true
+DX3410,DX3410 Handcrafted Press-On,0,,true
+DX3412,DX3412 Handcrafted Press-On,0,,true
+E124,E124 Handcrafted,0,,true
+E125,E125 Handcrafted,0,,true
+E126,E126 Handcrafted,0,,true
+E127,E127 Handcrafted,0,,false
+E128,E128 Handcrafted,0,,true
+E129,E129 Handcrafted,0,,true
+E130,E130 Handcrafted,0,,true
+E132,E132 Handcrafted,0,,true
+E133,E133 Handcrafted,0,,true
+E145,E145 Handcrafted,0,,true
+E172,E172 Handcrafted,0,,true
+E175,E175 Handcrafted,0,,true
+E180,E180 Handcrafted,0,,true
+E214,E214 Handcrafted,0,,true
+E227,E227 Handcrafted,0,,true
+E229,E229 Handcrafted,0,,true
+E230,E230 Handcrafted,0,,true
+E237,E237 Handcrafted,0,,true
+E366,E366 Handcrafted,0,,true
+E367,E367 Handcrafted,0,,true
+E369,E369 Handcrafted,0,,true
+E370,E370 Handcrafted,0,,true
+F248,F248 Handcrafted,0,,true
+F249,F249 Handcrafted,0,,true
+F251,F251 Handcrafted,0,,true
+F252,F252 Handcrafted,0,,true
+XN2402,XN2402 Handcrafted,0,,true
+YMDY-010,YMDY-010,0,,true
+YMDY-011,YMDY-011,0,,true
+YMDY-012,YMDY-012,0,,true
+YMDY-013,YMDY-013,0,,true
+YMDY-014,YMDY-014,0,,true
+YMDY-015,YMDY-015,0,,true
+YMDY-016,YMDY-016,0,,true
+YMDY-017,YMDY-017,0,,true
+YMDY-018,YMDY-018,0,,true
+YMDY-019,YMDY-019,0,,true
+YMDY-020,YMDY-020,0,,true
+YMDY-021,YMDY-021,0,,true
+YMDY-022,YMDY-022,0,,true
+YMDY-023,YMDY-023,0,,true
+YMDY-024,YMDY-024,0,,true
+YMDY-025,YMDY-025,0,,true
+YMDY-026,YMDY-026,0,,true
+YMDY-027,YMDY-027,0,,true
+YMDY-029,YMDY-029,0,,true
+YMDY-030,YMDY-030,0,,true
+YMDY-031,YMDY-031,0,,true
+YMDY-032,YMDY-032,0,,true
+YMDY-034,YMDY-034,0,,true
+YMDY-035,YMDY-035,0,,true
+YMDY-045,YMDY-045,0,,true
+YMDY-046,YMDY-046,0,,true
+YMDY-047,YMDY-047,0,,true
+YMDY-049,YMDY-049,0,,true
+YMDY-050,YMDY-050,0,,true
+YMDY-052,YMDY-052,0,,true
+YMDY-053,YMDY-053,0,,true
+YMDY-054,YMDY-054,0,,true
+YMDY-056,YMDY-056,0,,true
+YMDY-057,YMDY-057,0,,true
+YMDY-058,YMDY-058,0,,true
+YMDY-061,YMDY-061,0,,true

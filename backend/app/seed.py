@@ -1,7 +1,10 @@
-"""products.csv + asset/ -> Postgres. Upserts by SKU, so it is safe to re-run
-after editing names.
+"""products.csv -> Postgres. Upserts by SKU, so it is safe to re-run.
 
-    ./.venv/bin/python -m app.seed
+Deliberately does NOT read asset/: that directory is 811 MB, stays out of git,
+and never exists on the server. Everything needed lives in products.csv, so this
+runs anywhere the image runs:
+
+    docker compose -f docker-compose-prod.yaml run --rm tailorfantasy python -m app.seed
 """
 import argparse
 import csv
@@ -9,10 +12,10 @@ from pathlib import Path
 
 from sqlalchemy import select
 
-from .assets import scan
-from .config import settings
 from .db import Base, SessionLocal, engine
 from .models import Product
+
+DEFAULT_CSV = Path(__file__).resolve().parent.parent / "products.csv"
 
 
 def media_paths(sku: str, has_detail: bool) -> dict[str, str | None]:
@@ -26,32 +29,35 @@ def media_paths(sku: str, has_detail: bool) -> dict[str, str | None]:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--csv", type=Path, default=Path(__file__).resolve().parents[1] / "products.csv")
+    ap.add_argument("--csv", type=Path, default=DEFAULT_CSV)
     args = ap.parse_args()
+
+    if not args.csv.exists():
+        raise SystemExit(f"missing {args.csv} -- generate it with app.scan or app.import_sheet")
+
+    with args.csv.open(newline="", encoding="utf-8") as fh:
+        rows = list(csv.DictReader(fh))
+    if not rows:
+        raise SystemExit(f"{args.csv} has no rows")
 
     Base.metadata.create_all(bind=engine)
 
-    meta: dict[str, dict] = {}
-    if args.csv.exists():
-        with args.csv.open(newline="", encoding="utf-8") as fh:
-            meta = {r["sku"]: r for r in csv.DictReader(fh)}
-    else:
-        print(f"no {args.csv}; falling back to SKU as name")
-
     created = updated = 0
     with SessionLocal() as db:
-        for pa in scan():
-            row = meta.get(pa.sku, {})
+        for row in rows:
+            sku = row["sku"].strip()
             values = {
-                "name": row.get("name") or pa.sku,
-                "description": row.get("description", "") or "",
+                "name": row.get("name") or sku,
+                "description": row.get("description") or "",
                 "price_cents": int(row.get("price_cents") or 0),
-                **media_paths(pa.sku, pa.detail_source is not None),
+                # "detail" records whether this SKU has a detail image, so seeding
+                # needs no access to asset/.
+                **media_paths(sku, str(row.get("detail", "")).strip().lower() == "true"),
             }
 
-            product = db.scalar(select(Product).where(Product.sku == pa.sku))
+            product = db.scalar(select(Product).where(Product.sku == sku))
             if product is None:
-                db.add(Product(sku=pa.sku, **values))
+                db.add(Product(sku=sku, **values))
                 created += 1
             else:
                 for k, v in values.items():
@@ -59,7 +65,7 @@ def main() -> None:
                 updated += 1
         db.commit()
 
-    print(f"created {created}, updated {updated}")
+    print(f"created {created}, updated {updated} (from {args.csv})")
 
 
 if __name__ == "__main__":

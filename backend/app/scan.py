@@ -13,7 +13,7 @@ from pathlib import Path
 from .assets import scan
 from .config import settings
 
-FIELDS = ["sku", "name", "price_cents", "description"]
+FIELDS = ["sku", "name", "price_cents", "description", "detail"]
 
 
 def main() -> None:
@@ -36,6 +36,8 @@ def main() -> None:
             "name": prev.get("name") or pa.sku,
             "price_cents": prev.get("price_cents") or "0",
             "description": prev.get("description", ""),
+            # whether a detail image exists, so app.seed never needs asset/
+            "detail": str(pa.detail_source is not None).lower(),
         })
         if pa.sku_mismatches:
             print(f"  WARNING {pa.sku}: filenames carry a different code: {pa.sku_mismatches}")
