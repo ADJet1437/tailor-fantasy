@@ -8,11 +8,12 @@ name: tailorfantasy
 # Copy .env.example to .env and set ACME_EMAIL and POSTGRES_PASSWORD first.
 services:
   traefik:
-    image: traefik:v3.3
+    image: traefik:v3.6
     restart: unless-stopped
     environment:
-      # Docker Engine 28+ rejects API versions below 1.40, but Traefik's client
-      # falls back to 1.24 when negotiation fails -- pin it so the provider works.
+      # Docker Engine 28+ raises the minimum API version to 1.40; older Traefik
+      # builds negotiate 1.24 and the provider never connects. v3.6 ships a
+      # current client, and this pin is belt-and-braces.
       DOCKER_API_VERSION: "1.44"
     command:
       - --providers.docker=true
