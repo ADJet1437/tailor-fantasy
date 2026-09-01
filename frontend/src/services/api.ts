@@ -53,4 +53,16 @@ export const productApi = {
   },
 };
 
+export interface ContactPayload {
+  email: string;
+  message: string;
+}
+
+export const contactApi = {
+  send: async (data: ContactPayload): Promise<{ id: string; forwarded: boolean }> => {
+    const response = await api.post('/contact', data);
+    return response.data;
+  },
+};
+
 export default api;

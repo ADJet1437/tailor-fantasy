@@ -18,6 +18,16 @@ class Settings(BaseSettings):
     asset_dir: Path = REPO_ROOT / "asset"
     cors_origins: str = "http://localhost:5173,http://localhost:3000"
 
+    # Contact form. Messages are always stored; they are additionally emailed
+    # only when smtp_host is set.
+    contact_recipient: str = "support@talosy.com"
+    smtp_host: str = ""
+    smtp_port: int = 587
+    smtp_user: str = ""
+    smtp_password: str = ""
+    smtp_from: str = ""
+    smtp_starttls: bool = True
+
     @property
     def cors_origin_list(self) -> list[str]:
         return [o.strip() for o in self.cors_origins.split(",") if o.strip()]

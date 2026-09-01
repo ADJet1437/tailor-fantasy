@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { productApi, mediaUrl, Product } from '../services/api';
 import Butterfly from './Butterfly';
+import ContactForm from './ContactForm';
 
 /* Positions echo the reference composition: a large focal butterfly just above
    the horizon, with smaller ones fanning out and receding. */
@@ -48,7 +49,6 @@ const Landing = () => {
   }, []);
 
   const featured = products.slice(0, 8);
-  const handcrafted = products.filter((p) => p.name.includes('Handcrafted')).length;
 
   return (
     <div className="bg-[rgb(var(--ink))]">
@@ -229,27 +229,35 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* ----------------------------------------------------------------- cta */}
-      <section className="relative overflow-hidden px-6 pb-32">
+      {/* ------------------------------------------------------------- contact */}
+      <section id="contact" className="relative overflow-hidden px-6 pb-32">
         <div className="glass edge-lit relative mx-auto max-w-5xl overflow-hidden rounded-[2rem] px-8 py-20 text-center">
           <div
             className="aurora left-1/2 top-1/2 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2"
             style={{ background: 'rgb(var(--rose) / 0.3)' }}
           />
           <div className="relative">
+            <p className="mb-4 text-[0.68rem] uppercase tracking-[0.5em] text-[rgb(var(--muted))]">
+              Contact us
+            </p>
             <h2 className="tracking-display mx-auto max-w-2xl text-4xl font-semibold leading-tight sm:text-5xl">
-              {handcrafted > 0 ? `${handcrafted} handcrafted sets,` : 'Handcrafted sets,'}
-              <span className="font-display italic text-iridescent"> ready to wear.</span>
+              Questions, sizing, or
+              <span className="text-iridescent"> wholesale?</span>
             </h2>
-            <Link
-              to="/shop"
-              className="mt-10 inline-block rounded-full bg-[rgb(var(--chrome))] px-10 py-4 text-sm font-semibold text-[rgb(var(--ink))] transition-transform hover:scale-[1.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--violet))] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--ink))]"
-            >
-              Shop the collection
-            </Link>
+            <p className="mx-auto mt-6 max-w-md text-[rgb(var(--muted))]">
+              Tell us what you need and we'll come back to you within two
+              working days.
+            </p>
+
+            <ContactForm />
+
+            <p className="mt-8 text-xs uppercase tracking-[0.25em] text-[rgb(var(--muted))]/60">
+              Handcrafted in Sweden
+            </p>
           </div>
         </div>
       </section>
+
     </div>
   );
 };
