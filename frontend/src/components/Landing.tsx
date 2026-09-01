@@ -101,20 +101,10 @@ const Landing = () => {
             className="animate-rise tracking-display text-5xl font-semibold leading-[0.95] sm:text-7xl"
             style={{ animationDelay: '0.12s' }}
           >
-            Nails that look
+            Smart Beauty
             <br />
-            <span className="font-display text-iridescent italic">impossible</span>
-            <br />
-            to do at home.
+            <span className="text-iridescent">Tailor Fantasy</span>
           </h1>
-
-          <p
-            className="animate-rise mt-8 max-w-lg text-lg leading-relaxed text-[rgb(var(--muted))]"
-            style={{ animationDelay: '0.2s' }}
-          >
-            Press-on sets finished by hand, engineered to sit flush and last for
-            weeks. The salon result, without the salon.
-          </p>
 
           <div className="animate-rise mt-11 flex flex-wrap items-center justify-center gap-4"
                style={{ animationDelay: '0.28s' }}>

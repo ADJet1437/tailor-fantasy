@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="iris" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#f472b6"/>
+      <stop offset="40%"  stop-color="#a78bfa"/>
+      <stop offset="72%"  stop-color="#67e8f9"/>
+      <stop offset="100%" stop-color="#e4c694"/>
+    </linearGradient>
+  </defs>
+
+  <!-- warm-black plate, matching the site background -->
+  <rect width="64" height="64" rx="14" fill="#0a090e"/>
+
+  <!-- wings: simplified to two bold lobes per side so the silhouette survives 16px -->
+  <g fill="url(#iris)">
+    <path d="M31 31 C24 15, 12 8, 7 14 C2 20, 6 30, 17 33 C23 34.5, 28 33.5, 31 31 Z"/>
+    <path d="M33 31 C40 15, 52 8, 57 14 C62 20, 58 30, 47 33 C41 34.5, 36 33.5, 33 31 Z"/>
+    <path d="M31 34 C25 39, 17 45, 19 52 C21 58, 29 57, 31.5 47 C32.3 43, 32 37 31 34 Z"/>
+    <path d="M33 34 C39 39, 47 45, 45 52 C43 58, 35 57, 32.5 47 C31.7 43, 32 37 33 34 Z"/>
+  </g>
+
+  <!-- body + antennae -->
+  <path d="M32 24 C33.4 24, 34 25.4, 34 27 L34 45 C34 47.4, 33.1 49, 32 49
+           C30.9 49, 30 47.4, 30 45 L30 27 C30 25.4, 30.6 24, 32 24 Z" fill="#e4c694"/>
+  <path d="M32 25 C30 21, 27 19, 25 18.5 M32 25 C34 21, 37 19, 39 18.5"
+        stroke="#e4c694" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+</svg>
