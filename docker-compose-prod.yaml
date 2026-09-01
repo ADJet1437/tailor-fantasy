@@ -1,0 +1,86 @@
+name: tailorfantasy
+
+# Production. Traefik terminates TLS and routes by hostname:
+#   tailorfantasy.com      -> frontend (nginx serving the built bundle)
+#   api.tailorfantasy.com  -> backend  (FastAPI, including /media)
+#
+# Both DNS records must point at this host before Let's Encrypt can issue certs.
+# Copy .env.example to .env and set ACME_EMAIL and POSTGRES_PASSWORD first.
+services:
+  traefik:
+    image: traefik:v3.3
+    restart: unless-stopped
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      # everything on :80 is redirected to :443
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --certificatesresolvers.le.acme.email=${ACME_EMAIL:?set ACME_EMAIL in .env}
+      - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.le.acme.httpchallenge=true
+      - --certificatesresolvers.le.acme.httpchallenge.entrypoint=web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - letsencrypt:/letsencrypt
+
+  frontend:
+    build:
+      context: ./frontend
+      target: prod
+      args:
+        # baked into the bundle at build time -- rebuild if the domain changes
+        VITE_API_BASE_URL: https://${API_DOMAIN:-api.tailorfantasy.com}
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.frontend.rule=Host(`${WEB_DOMAIN:-tailorfantasy.com}`) || Host(`www.${WEB_DOMAIN:-tailorfantasy.com}`)
+      - traefik.http.routers.frontend.entrypoints=websecure
+      - traefik.http.routers.frontend.tls.certresolver=le
+      - traefik.http.services.frontend.loadbalancer.server.port=80
+    depends_on:
+      - tailorfantasy
+
+  tailorfantasy:
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-nailart}:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@db:5432/${POSTGRES_DB:-nailart}
+      MEDIA_DIR: /app/media
+      CORS_ORIGINS: https://${WEB_DOMAIN:-tailorfantasy.com},https://www.${WEB_DOMAIN:-tailorfantasy.com}
+    volumes:
+      - ./backend/media:/app/media:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.api.rule=Host(`${API_DOMAIN:-api.tailorfantasy.com}`)
+      - traefik.http.routers.api.entrypoints=websecure
+      - traefik.http.routers.api.tls.certresolver=le
+      - traefik.http.services.api.loadbalancer.server.port=8000
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    # no published port -- the database is reachable only inside the network
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-nailart}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-nailart}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-nailart} -d ${POSTGRES_DB:-nailart}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:
+  letsencrypt:

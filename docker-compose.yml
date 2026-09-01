@@ -1,20 +1,36 @@
 name: tailorfantasy
 
-# Values come from backend/.env (see .env.example). The defaults after :- keep
-# `docker compose up` working even without one.
+# Local development. Values come from .env at the repo root (see .env.example);
+# the :- defaults keep `docker compose up` working without one.
 services:
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    ports:
+      - "${WEB_PORT:-5173}:5173"
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8001}
+    volumes:
+      # source mounted for hot reload; the anonymous volume keeps the image's
+      # node_modules from being shadowed by the host directory
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - tailorfantasy
+
   tailorfantasy:
-    build: .
+    build: ./backend
     ports:
       - "${API_PORT:-8001}:8000"
     environment:
       # Inside the network the database is reachable as `db`, not localhost.
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-nailart}:${POSTGRES_PASSWORD:-nailart}@db:5432/${POSTGRES_DB:-nailart}
       MEDIA_DIR: /app/media
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://localhost:3000}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://localhost:5174,http://localhost:3000}
     volumes:
       # bind-mounted so regenerating images needs no image rebuild
-      - ./media:/app/media
+      - ./backend/media:/app/media
     depends_on:
       db:
         condition: service_healthy
