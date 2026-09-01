@@ -35,7 +35,7 @@ const ProductDetail = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-purple-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[rgb(var(--violet))]"></div>
       </div>
     );
   }
@@ -43,8 +43,8 @@ const ProductDetail = () => {
   if (error || !product) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
-        <p className="text-gray-500">{error ?? 'Product not found.'}</p>
-        <Link to="/" className="text-purple-600 hover:text-purple-800">
+        <p className="text-[rgb(var(--muted))]">{error ?? 'Product not found.'}</p>
+        <Link to="/" className="text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]">
           ← Back
         </Link>
       </div>
@@ -52,10 +52,10 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="mx-auto max-w-4xl px-6 py-10">
       <Link
         to="/"
-        className="inline-block text-purple-600 hover:text-purple-800 mb-4"
+        className="mb-6 inline-block text-sm text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]"
       >
         ← Back
       </Link>
@@ -64,10 +64,10 @@ const ProductDetail = () => {
         <img
           src={mediaUrl(product.detail_url)}
           alt={product.name}
-          className="w-full max-w-3xl mx-auto block"
+          className="mx-auto block w-full max-w-3xl rounded-2xl"
         />
       ) : (
-        <p className="text-center text-gray-400 py-16">
+        <p className="py-16 text-center text-[rgb(var(--muted))]">
           No detail image available.
         </p>
       )}

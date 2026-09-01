@@ -12,19 +12,19 @@ const LegalPage = ({ title, children }: LegalPageProps) => {
     <div className="container mx-auto max-w-3xl px-4 py-10">
       <Link
         to="/"
-        className="mb-6 inline-block text-sm text-purple-600 hover:text-purple-800"
+        className="mb-6 inline-block text-sm text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]"
       >
         ← Back
       </Link>
 
-      <article className="rounded-2xl bg-white p-8 shadow-md sm:p-10">
-        <h1 className="mb-8 text-3xl font-bold text-gray-800">{title}</h1>
+      <article className="glass edge-lit rounded-3xl p-8 sm:p-12">
+        <h1 className="tracking-display mb-8 text-4xl font-semibold">{title}</h1>
 
         <div
           className="
-            space-y-6 text-gray-600
-            [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-gray-800
-            [&_a]:text-purple-600 hover:[&_a]:text-purple-800
+            space-y-6 text-[rgb(var(--muted))]
+            [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-[rgb(var(--chrome))]
+            [&_a]:text-[rgb(var(--chrome))] [&_a]:underline
             [&_li]:leading-relaxed [&_p]:leading-relaxed
             [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-6
           "

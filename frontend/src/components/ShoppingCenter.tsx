@@ -30,8 +30,8 @@ const ShoppingCenter = () => {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-500 mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg">Loading products...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[rgb(var(--violet))] mx-auto mb-4"></div>
+          <p className="text-[rgb(var(--muted))]">Loading products…</p>
         </div>
       </div>
     );
@@ -40,11 +40,11 @@ const ShoppingCenter = () => {
   if (error) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md">
-          <p className="text-red-600 text-center">{error}</p>
+        <div className="glass rounded-2xl p-6 max-w-md">
+          <p className="text-center text-[rgb(var(--rose))]">{error}</p>
           <button
             onClick={loadProducts}
-            className="mt-4 w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+            className="mt-4 w-full rounded-full bg-[rgb(var(--chrome))] px-4 py-2 text-sm font-semibold text-[rgb(var(--ink))] transition-transform hover:scale-[1.02]"
           >
             Try Again
           </button>
@@ -54,10 +54,18 @@ const ShoppingCenter = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="mx-auto max-w-6xl px-6 py-16">
+      <div className="mb-12">
+        <p className="mb-4 text-[0.7rem] uppercase tracking-[0.4em] text-[rgb(var(--muted))]">
+          The collection
+        </p>
+        <h1 className="tracking-display text-4xl font-semibold sm:text-5xl">
+          All designs
+        </h1>
+      </div>
       {products.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">No products available yet.</p>
+          <p className="text-[rgb(var(--muted))]">No products available yet.</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -65,29 +73,29 @@ const ShoppingCenter = () => {
             <Link
               key={product.id}
               to={`/product/${product.id}`}
-              className="group block bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
+              className="group edge-lit block overflow-hidden rounded-2xl bg-[rgb(var(--ink-soft))] transition-transform duration-500 hover:-translate-y-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--violet))]"
             >
-              <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-pink-100 to-purple-100">
+              <div className="relative aspect-square overflow-hidden bg-[rgb(var(--ink-raised))]">
                 <img
                   src={mediaUrl(product.thumb_url)}
                   alt={product.name}
                   loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 {/* The whole card is the link; this is a hover affordance, not the tap target. */}
-                <div className="absolute inset-0 flex items-center justify-center bg-purple-900/0 transition-colors duration-300 group-hover:bg-purple-900/30">
-                  <span className="translate-y-2 rounded-full bg-white/95 px-5 py-2 text-sm font-semibold text-purple-700 opacity-0 shadow-lg transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/35">
+                  <span className="translate-y-2 rounded-full bg-[rgb(var(--chrome))] px-5 py-2 text-sm font-semibold text-[rgb(var(--ink))] opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                     View
                   </span>
                 </div>
               </div>
 
               <div className="px-4 py-3">
-                <h3 className="font-semibold tracking-wide text-gray-800 transition-colors group-hover:text-purple-600">
+                <h3 className="truncate text-sm font-medium text-[rgb(var(--chrome))]">
                   {product.name}
                 </h3>
                 {product.description && (
-                  <p className="mt-1 line-clamp-2 text-sm text-gray-500">
+                  <p className="mt-1 line-clamp-2 text-sm text-[rgb(var(--muted))]">
                     {product.description}
                   </p>
                 )}

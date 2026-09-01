@@ -28,17 +28,17 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-16 bg-slate-900 text-slate-300">
+    <footer className="border-t border-white/[0.06] bg-[rgb(var(--ink-soft))] text-[rgb(var(--muted))]">
       {/* echoes the header gradient */}
-      <div className="h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500" />
+      
 
       <div className="container mx-auto grid grid-cols-2 gap-10 px-4 py-12 lg:grid-cols-4">
         {/* Company */}
         <div>
-          <h2 className="mb-3 text-lg font-bold text-white">
+          <h2 className="mb-3 text-lg font-bold text-[rgb(var(--chrome))]">
             💅 Tailor Fantasy
           </h2>
-          <p className="text-sm leading-relaxed text-slate-400">
+          <p className="text-sm leading-relaxed text-[rgb(var(--muted))]">
             DIY nail art kits and supplies for people who would rather make it
             themselves.
           </p>
@@ -46,7 +46,7 @@ const Footer = () => {
 
         {/* Support */}
         <div>
-          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-white">
+          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-[rgb(var(--chrome))]">
             Support
           </h3>
           <ul className="space-y-2 text-sm">
@@ -54,7 +54,7 @@ const Footer = () => {
               <li key={link.label}>
                 <a
                   href={link.href}
-                  className="text-slate-400 transition-colors hover:text-white"
+                  className="text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]"
                 >
                   {link.label}
                 </a>
@@ -65,7 +65,7 @@ const Footer = () => {
 
         {/* Legal */}
         <div>
-          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-white">
+          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-[rgb(var(--chrome))]">
             Legal
           </h3>
           <ul className="space-y-2 text-sm">
@@ -73,7 +73,7 @@ const Footer = () => {
               <li key={link.label}>
                 <Link
                   to={link.to}
-                  className="text-slate-400 transition-colors hover:text-white"
+                  className="text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]"
                 >
                   {link.label}
                 </Link>
@@ -85,7 +85,7 @@ const Footer = () => {
         {/* Social */}
         <div>
           <div className="inline-block">
-            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-white">
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-[rgb(var(--chrome))]">
               Follow Us
             </h3>
             <div className="flex justify-center gap-2">
@@ -94,7 +94,7 @@ const Footer = () => {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="rounded-full p-2.5 text-slate-400 transition-colors hover:bg-slate-800 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
+                  className="rounded-full p-2.5 text-[rgb(var(--muted))] transition-colors hover:bg-white/5 hover:text-[rgb(var(--chrome))] focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--violet))]"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -111,8 +111,8 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="border-t border-slate-800">
-        <div className="container mx-auto px-4 py-5 text-center text-xs text-slate-500">
+      <div className="border-t border-white/[0.06]">
+        <div className="container mx-auto px-4 py-5 text-center text-xs text-[rgb(var(--muted))]/60">
           <p>&copy; {year} Tailor Fantasy. All rights reserved.</p>
         </div>
       </div>
