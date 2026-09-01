@@ -15,21 +15,25 @@ const BUTTERFLIES = [
   { x: '89%', y: '55%', size: 40, dur: 0.68, delay: 0.9,  z: -320, hue: 0.3, op: 0.6  },
 ];
 
-const PILLARS = [
+/* One column per category, linking straight into that filter. */
+const RANGES = [
   {
+    slug: 'press-on',
     n: '01',
-    title: 'Hand-finished',
-    body: 'Every press-on set is shaped, painted and cured by hand. No two are identical, and none of them came off a press.',
+    title: 'Press-On',
+    body: 'Ready to wear straight out of the box. No lamp, no tools, no drying time — press them on and go.',
   },
   {
+    slug: 'handcraft',
     n: '02',
-    title: 'Salon-grade materials',
-    body: 'Soft-gel tips and cured gel colour — the same system a technician would use, engineered to sit flush against your nail.',
+    title: 'Handcraft',
+    body: 'Hand-painted one set at a time. A premium finish for anyone who wants the craft without the salon chair.',
   },
   {
+    slug: 'diy',
     n: '03',
-    title: 'Wear in minutes',
-    body: 'A full set applied at your kitchen table in under fifteen minutes, removed without acetone, and worn again.',
+    title: 'DIY',
+    body: 'The everyday range. Printed tips you shape, style and make your own.',
   },
 ];
 
@@ -149,24 +153,35 @@ const Landing = () => {
       <section id="craft" className="mx-auto max-w-6xl scroll-mt-24 px-6 py-28">
         <div className="mb-16 max-w-2xl">
           <p className="mb-4 text-[0.7rem] uppercase tracking-[0.4em] text-[rgb(var(--muted))]">
-            The craft
+            The range
           </p>
           <h2 className="tracking-display text-4xl font-semibold leading-tight sm:text-5xl">
-            Made the slow way,
-            <span className="font-display italic text-iridescent"> on purpose.</span>
+            Three ways
+            <span className="font-display italic text-iridescent"> to wear it.</span>
           </h2>
         </div>
 
         <div className="grid gap-px overflow-hidden rounded-3xl bg-white/[0.07] sm:grid-cols-3">
-          {PILLARS.map((p) => (
-            <div key={p.n} className="bg-[rgb(var(--ink-soft))] p-9">
-              <span className="font-display text-3xl italic text-[rgb(var(--champagne))]/70">
-                {p.n}
-              </span>
-              <h3 className="mb-3 mt-5 text-lg font-semibold">{p.title}</h3>
-              <p className="text-sm leading-relaxed text-[rgb(var(--muted))]">{p.body}</p>
-            </div>
-          ))}
+          {RANGES.map((r) => {
+            const count = products.filter((p) => p.category === r.slug).length;
+            return (
+              <Link
+                key={r.slug}
+                to={`/shop?category=${r.slug}`}
+                className="group bg-[rgb(var(--ink-soft))] p-9 transition-colors hover:bg-[rgb(var(--ink-raised))] focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[rgb(var(--violet))]"
+              >
+                <span className="font-display text-3xl italic text-[rgb(var(--champagne))]/70">
+                  {r.n}
+                </span>
+                <h3 className="mb-3 mt-5 text-lg font-semibold">{r.title}</h3>
+                <p className="text-sm leading-relaxed text-[rgb(var(--muted))]">{r.body}</p>
+                <span className="mt-6 inline-block text-xs uppercase tracking-[0.2em] text-[rgb(var(--muted))]/70 transition-colors group-hover:text-[rgb(var(--chrome))]">
+                  {count > 0 ? `${count} designs` : 'Browse'}
+                  <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">→</span>
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </section>
 
