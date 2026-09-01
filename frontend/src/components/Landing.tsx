@@ -2,13 +2,17 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { productApi, mediaUrl, Product } from '../services/api';
 import ChromeOrb from './ChromeOrb';
+import Butterfly from './Butterfly';
 
-/** Cards in the hero, placed on a 3D plane. */
-const HERO_SLOTS = [
-  { x: '4%',  y: '14%', z: -160, tilt: '-9deg',  w: 'w-40 sm:w-48', delay: '0s'   },
-  { x: '68%', y: '6%',  z: -60,  tilt: '7deg',   w: 'w-44 sm:w-56', delay: '1.1s' },
-  { x: '78%', y: '58%', z: -220, tilt: '-5deg',  w: 'w-36 sm:w-44', delay: '2.2s' },
-  { x: '12%', y: '62%', z: -20,  tilt: '6deg',   w: 'w-48 sm:w-60', delay: '0.6s' },
+/* Positions echo the reference composition: a large focal butterfly just above
+   the horizon, with smaller ones fanning out and receding. */
+const BUTTERFLIES = [
+  { x: '50%', y: '58%', size: 96, dur: 1.05, delay: 0,    z: 0,    hue: 0.2, op: 1    },
+  { x: '15%', y: '34%', size: 56, dur: 0.82, delay: 0.35, z: -180, hue: 0.7, op: 0.85 },
+  { x: '80%', y: '28%', size: 62, dur: 0.94, delay: 0.6,  z: -120, hue: 0.1, op: 0.9  },
+  { x: '30%', y: '68%', size: 46, dur: 0.74, delay: 0.15, z: -260, hue: 0.5, op: 0.7  },
+  { x: '68%', y: '74%', size: 52, dur: 0.88, delay: 0.5,  z: -220, hue: 0.8, op: 0.75 },
+  { x: '89%', y: '55%', size: 40, dur: 0.68, delay: 0.9,  z: -320, hue: 0.3, op: 0.6  },
 ];
 
 const PILLARS = [
@@ -39,7 +43,6 @@ const Landing = () => {
       .catch((err) => console.error('Error loading products:', err));
   }, []);
 
-  const hero = products.slice(0, HERO_SLOTS.length);
   const featured = products.slice(0, 8);
   const handcrafted = products.filter((p) => p.name.includes('Handcrafted')).length;
 
@@ -63,33 +66,25 @@ const Landing = () => {
           />
         </div>
 
-        {/* floating product plane */}
-        <div className="perspective-far pointer-events-none absolute inset-0 hidden lg:block">
+        {/* butterfly field -- stationary, wings flapping in place */}
+        <div className="perspective-far pointer-events-none absolute inset-0">
           <div className="preserve-3d relative h-full w-full">
-            {hero.map((p, i) => {
-              const s = HERO_SLOTS[i];
-              return (
-                <figure
-                  key={p.id}
-                  className={`animate-float-slow absolute ${s.w} overflow-hidden rounded-2xl edge-lit`}
-                  style={{
-                    left: s.x,
-                    top: s.y,
-                    ['--tilt' as string]: s.tilt,
-                    transform: `translateZ(${s.z}px) rotate(${s.tilt})`,
-                    animationDelay: s.delay,
-                    boxShadow: '0 40px 90px -30px rgba(0,0,0,0.85)',
-                  }}
-                >
-                  <img
-                    src={mediaUrl(p.thumb_url)}
-                    alt=""
-                    loading="lazy"
-                    className="aspect-square w-full object-cover"
-                  />
-                </figure>
-              );
-            })}
+            {BUTTERFLIES.map((b, i) => (
+              <Butterfly
+                key={i}
+                size={b.size}
+                duration={b.dur}
+                delay={b.delay}
+                hue={b.hue}
+                style={{
+                  position: 'absolute',
+                  left: b.x,
+                  top: b.y,
+                  opacity: b.op,
+                  transform: `translate(-50%, -50%) translateZ(${b.z}px)`,
+                }}
+              />
+            ))}
           </div>
         </div>
 
