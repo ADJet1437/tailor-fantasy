@@ -35,8 +35,8 @@ const Footer = () => {
       <div className="container mx-auto grid grid-cols-2 gap-10 px-4 py-12 lg:grid-cols-4">
         {/* Company */}
         <div>
-          <h2 className="mb-3 text-lg font-bold text-[rgb(var(--chrome))]">
-            💅 Tailor Fantasy
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[rgb(var(--chrome))]">
+            Tailor Fantasy
           </h2>
           <p className="text-sm leading-relaxed text-[rgb(var(--muted))]">
             DIY nail art kits and supplies for people who would rather make it
