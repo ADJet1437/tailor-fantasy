@@ -10,7 +10,7 @@ import argparse
 import csv
 from pathlib import Path
 
-from sqlalchemy import select
+from sqlalchemy import select, text
 
 from .db import Base, SessionLocal, engine
 from .models import Product
@@ -41,6 +41,12 @@ def main() -> None:
         raise SystemExit(f"{args.csv} has no rows")
 
     Base.metadata.create_all(bind=engine)
+    # create_all never alters an existing table; this keeps already-deployed
+    # databases in step without pulling in a migration tool.
+    with engine.begin() as conn:
+        conn.execute(
+            text("ALTER TABLE products ADD COLUMN IF NOT EXISTS category VARCHAR(16) NOT NULL DEFAULT 'diy'")
+        )
 
     created = updated = 0
     with SessionLocal() as db:
@@ -48,6 +54,7 @@ def main() -> None:
             sku = row["sku"].strip()
             values = {
                 "name": row.get("name") or sku,
+                "category": (row.get("category") or "diy").strip(),
                 "description": row.get("description") or "",
                 "price_cents": int(row.get("price_cents") or 0),
                 # "detail" records whether this SKU has a detail image, so seeding

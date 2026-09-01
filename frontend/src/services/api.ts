@@ -19,6 +19,8 @@ export interface Product {
   sku: string;
   name: string;
   description: string;
+  /** "press-on" | "handcraft" | "diy" */
+  category: string;
   price: number;
   image_url: string;
   thumb_url: string;
@@ -34,8 +36,14 @@ export interface PagedResponse<T> {
 
 // Product API -- served by the local FastAPI backend, read-only.
 export const productApi = {
-  list: async (limit = 100, offset = 0): Promise<PagedResponse<Product>> => {
-    const response = await api.get('/products', { params: { limit, offset } });
+  list: async (
+    limit = 100,
+    offset = 0,
+    category?: string,
+  ): Promise<PagedResponse<Product>> => {
+    const response = await api.get('/products', {
+      params: { limit, offset, ...(category ? { category } : {}) },
+    });
     return response.data;
   },
 

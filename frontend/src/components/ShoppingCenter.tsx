@@ -1,15 +1,26 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { productApi, mediaUrl, Product } from '../services/api';
 
+/** Slug must match the `category` column the backend seeds. */
+const CATEGORIES = [
+  { slug: null,        label: 'All' },
+  { slug: 'press-on',  label: 'Press-On' },
+  { slug: 'handcraft', label: 'Handcraft' },
+  { slug: 'diy',       label: 'DIY' },
+];
+
 const ShoppingCenter = () => {
+  // the active category lives in the URL, so a filtered view is shareable
+  const [searchParams, setSearchParams] = useSearchParams();
+  const active = searchParams.get('category');
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadProducts();
-  }, []);
+  }, [active]);
 
   const loadProducts = async () => {
     try {
@@ -60,8 +71,30 @@ const ShoppingCenter = () => {
           The collection
         </p>
         <h1 className="tracking-display text-4xl font-semibold sm:text-5xl">
-          All designs
+          {CATEGORIES.find((c) => c.slug === active)?.label ?? 'All'} designs
         </h1>
+
+        <nav className="mt-8 flex flex-wrap gap-2">
+          {CATEGORIES.map((c) => {
+            const isActive = c.slug === active;
+            return (
+              <button
+                key={c.label}
+                onClick={() =>
+                  setSearchParams(c.slug ? { category: c.slug } : {}, { replace: true })
+                }
+                aria-current={isActive ? 'page' : undefined}
+                className={`rounded-full px-5 py-2 text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--violet))] ${
+                  isActive
+                    ? 'bg-[rgb(var(--chrome))] font-semibold text-[rgb(var(--ink))]'
+                    : 'border border-white/10 text-[rgb(var(--muted))] hover:border-white/25 hover:text-[rgb(var(--chrome))]'
+                }`}
+              >
+                {c.label}
+              </button>
+            );
+          })}
+        </nav>
       </div>
       {products.length === 0 ? (
         <div className="text-center py-12">

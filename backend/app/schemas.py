@@ -16,6 +16,7 @@ class ProductOut(BaseModel):
     sku: str
     name: str
     description: str
+    category: str
     image_url: str
     thumb_url: str
     detail_url: str | None

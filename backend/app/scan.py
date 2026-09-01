@@ -13,7 +13,7 @@ from pathlib import Path
 from .assets import scan
 from .config import settings
 
-FIELDS = ["sku", "name", "price_cents", "description", "detail"]
+FIELDS = ["sku", "name", "category", "price_cents", "description", "detail"]
 
 
 def main() -> None:
@@ -34,6 +34,7 @@ def main() -> None:
         rows.append({
             "sku": pa.sku,
             "name": prev.get("name") or pa.sku,
+            "category": prev.get("category") or "diy",
             "price_cents": prev.get("price_cents") or "0",
             "description": prev.get("description", ""),
             # whether a detail image exists, so app.seed never needs asset/

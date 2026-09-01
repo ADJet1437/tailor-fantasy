@@ -15,11 +15,13 @@ router = APIRouter(tags=["products"])
 def list_products(
     limit: int = Query(100, ge=1, le=500),
     offset: int = Query(0, ge=0),
+    category: str | None = Query(None, description="press-on | handcraft | diy"),
     db: Session = Depends(get_db),
 ):
-    total = db.scalar(select(func.count()).select_from(Product)) or 0
+    where = [] if category is None else [Product.category == category]
+    total = db.scalar(select(func.count()).select_from(Product).where(*where)) or 0
     rows = db.scalars(
-        select(Product).order_by(Product.sku).limit(limit).offset(offset)
+        select(Product).where(*where).order_by(Product.sku).limit(limit).offset(offset)
     ).all()
     return {"data": rows, "total": total, "limit": limit, "offset": offset}
 

@@ -19,10 +19,12 @@ from .assets import scan
 
 SHEET = "选款清单"
 
-# 分类 -> suffix appended to the SKU. Categories absent here keep the bare SKU.
-CATEGORY_SUFFIX = {
-    "纯手工欧美成品甲": "Handcrafted Press-On",
-    "纯手工日常款": "Handcrafted",
+# 分类 -> (slug, suffix appended to the SKU). Categories absent here fall back
+# to "diy" with a bare SKU name.
+CATEGORY_MAP = {
+    "纯手工欧美成品甲": ("press-on", "Handcrafted Press-On"),
+    "纯手工日常款": ("handcraft", "Handcrafted"),
+    "DIY打印甲": ("diy", ""),
 }
 
 # asset/ folder name -> code as written in the sheet
@@ -58,13 +60,14 @@ def main() -> None:
         else:
             category = str(entry["category"]).strip()
 
-        suffix = CATEGORY_SUFFIX.get(category, "")
+        slug, suffix = CATEGORY_MAP.get(category, ("diy", ""))
         name = f"{pa.sku} {suffix}".strip()
-        counts[suffix or "(bare SKU)"] += 1
+        counts[slug] += 1
 
         rows.append({
             "sku": pa.sku,
             "name": name,
+            "category": slug,
             "price_cents": "0",
             "description": "",
             # whether a detail image exists, so app.seed never needs asset/
@@ -72,7 +75,7 @@ def main() -> None:
         })
 
     with args.out.open("w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=["sku", "name", "price_cents", "description", "detail"])
+        w = csv.DictWriter(fh, fieldnames=["sku", "name", "category", "price_cents", "description", "detail"])
         w.writeheader()
         w.writerows(rows)
 

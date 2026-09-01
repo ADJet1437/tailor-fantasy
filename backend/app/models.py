@@ -18,6 +18,8 @@ class Product(Base):
     sku: Mapped[str] = mapped_column(String(32), unique=True, index=True)
     name: Mapped[str] = mapped_column(String(200))
     description: Mapped[str] = mapped_column(Text, default="")
+    # "press-on" | "handcraft" | "diy" -- derived from the sheet's 分类 column
+    category: Mapped[str] = mapped_column(String(16), index=True, default="diy")
     price_cents: Mapped[int] = mapped_column(Integer, default=0)
 
     # Relative paths only -- never image bytes. The host can change without a migration.
