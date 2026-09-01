@@ -56,6 +56,8 @@ export const productApi = {
 export interface ContactPayload {
   email: string;
   message: string;
+  /** honeypot -- must stay empty; only bots fill it */
+  website?: string;
 }
 
 export const contactApi = {

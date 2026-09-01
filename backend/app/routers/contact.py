@@ -1,8 +1,11 @@
 import logging
 import smtplib
+import time
+import uuid
+from collections import defaultdict, deque
 from email.message import EmailMessage
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from ..config import settings
@@ -12,6 +15,23 @@ from ..schemas import ContactIn, ContactOut
 
 log = logging.getLogger(__name__)
 router = APIRouter(tags=["contact"])
+
+# Simple in-process sliding window. Enough for a single-container deployment;
+# a shared store would be needed if this is ever scaled out.
+RATE_LIMIT = 3
+RATE_WINDOW = 600  # seconds
+_hits: dict[str, deque[float]] = defaultdict(deque)
+
+
+def _rate_limited(ip: str) -> bool:
+    now = time.time()
+    hits = _hits[ip]
+    while hits and now - hits[0] > RATE_WINDOW:
+        hits.popleft()
+    if len(hits) >= RATE_LIMIT:
+        return True
+    hits.append(now)
+    return False
 
 
 def _forward(email: str, message: str) -> bool:
@@ -42,7 +62,21 @@ def _forward(email: str, message: str) -> bool:
 
 
 @router.post("/contact", response_model=ContactOut, status_code=201)
-def submit_contact(payload: ContactIn, db: Session = Depends(get_db)):
+def submit_contact(
+    payload: ContactIn, request: Request, db: Session = Depends(get_db)
+):
+    # Honeypot tripped: report success so the bot does not retry, but store nothing.
+    if payload.website.strip():
+        log.info("contact: honeypot tripped")
+        return ContactOut(id=uuid.uuid4(), forwarded=False)
+
+    ip = (request.client.host if request.client else "unknown")
+    if _rate_limited(ip):
+        raise HTTPException(
+            status_code=429,
+            detail="Too many messages. Please try again later.",
+        )
+
     forwarded = _forward(payload.email, payload.message)
 
     row = ContactMessage(

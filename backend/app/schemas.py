@@ -61,7 +61,10 @@ class GeneratedImageOut(GeneratedImageIn):
 
 class ContactIn(BaseModel):
     email: EmailStr
-    message: str = Field(min_length=1, max_length=5000)
+    message: str = Field(min_length=10, max_length=5000)
+    # Honeypot: hidden in the UI, so only a bot fills it in. Anything here
+    # means the submission is discarded.
+    website: str = ""
 
 
 class ContactOut(BaseModel):

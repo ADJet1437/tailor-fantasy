@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { productApi, mediaUrl, Product } from '../services/api';
 import Butterfly from './Butterfly';
-import ContactForm from './ContactForm';
+import ContactModal from './ContactModal';
 
 /* Positions echo the reference composition: a large focal butterfly just above
    the horizon, with smaller ones fanning out and receding. */
@@ -40,6 +40,7 @@ const RANGES = [
 
 const Landing = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [contactOpen, setContactOpen] = useState(false);
 
   useEffect(() => {
     productApi
@@ -237,19 +238,15 @@ const Landing = () => {
             style={{ background: 'rgb(var(--rose) / 0.3)' }}
           />
           <div className="relative">
-            <p className="mb-4 text-[0.68rem] uppercase tracking-[0.5em] text-[rgb(var(--muted))]">
-              Contact us
-            </p>
-            <h2 className="tracking-display mx-auto max-w-2xl text-4xl font-semibold leading-tight sm:text-5xl">
-              Questions, sizing, or
-              <span className="text-iridescent"> wholesale?</span>
+            <h2 className="tracking-display text-4xl font-semibold sm:text-5xl">
+              Contact <span className="text-iridescent">us</span>
             </h2>
-            <p className="mx-auto mt-6 max-w-md text-[rgb(var(--muted))]">
-              Tell us what you need and we'll come back to you within two
-              working days.
-            </p>
-
-            <ContactForm />
+            <button
+              onClick={() => setContactOpen(true)}
+              className="mt-10 rounded-full bg-[rgb(var(--chrome))] px-10 py-4 text-sm font-semibold text-[rgb(var(--ink))] transition-transform hover:scale-[1.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--violet))] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--ink))]"
+            >
+              Write us a message
+            </button>
 
             <p className="mt-8 text-xs uppercase tracking-[0.25em] text-[rgb(var(--muted))]/60">
               Handcrafted in Sweden
@@ -258,6 +255,7 @@ const Landing = () => {
         </div>
       </section>
 
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </div>
   );
 };
