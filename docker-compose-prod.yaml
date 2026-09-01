@@ -10,6 +10,10 @@ services:
   traefik:
     image: traefik:v3.3
     restart: unless-stopped
+    environment:
+      # Docker Engine 28+ rejects API versions below 1.40, but Traefik's client
+      # falls back to 1.24 when negotiation fails -- pin it so the provider works.
+      DOCKER_API_VERSION: "1.44"
     command:
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
