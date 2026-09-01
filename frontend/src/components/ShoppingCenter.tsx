@@ -65,16 +65,16 @@ const ShoppingCenter = () => {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16">
+    <div className="mx-auto max-w-6xl px-6 py-10 sm:py-16">
       <div className="mb-12">
         <p className="mb-4 text-[0.7rem] uppercase tracking-[0.4em] text-[rgb(var(--muted))]">
           The collection
         </p>
-        <h1 className="tracking-display text-4xl font-semibold sm:text-5xl">
+        <h1 className="tracking-display text-[clamp(1.75rem,7vw,3rem)] font-semibold">
           {CATEGORIES.find((c) => c.slug === active)?.label ?? 'All'} designs
         </h1>
 
-        <nav className="mt-8 flex flex-wrap gap-2">
+        <nav className="-mx-6 mt-7 flex gap-2 overflow-x-auto px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:mt-8 sm:flex-wrap sm:overflow-visible sm:px-0">
           {CATEGORIES.map((c) => {
             const isActive = c.slug === active;
             return (
@@ -84,7 +84,7 @@ const ShoppingCenter = () => {
                   setSearchParams(c.slug ? { category: c.slug } : {}, { replace: true })
                 }
                 aria-current={isActive ? 'page' : undefined}
-                className={`rounded-full px-5 py-2 text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--violet))] ${
+                className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-[0.8rem] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--violet))] sm:px-5 sm:text-sm ${
                   isActive
                     ? 'bg-[rgb(var(--chrome))] font-semibold text-[rgb(var(--ink))]'
                     : 'border border-white/10 text-[rgb(var(--muted))] hover:border-white/25 hover:text-[rgb(var(--chrome))]'

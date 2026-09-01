@@ -6,14 +6,17 @@ import ContactModal from './ContactModal';
 
 /* Positions echo the reference composition: a large focal butterfly just above
    the horizon, with smaller ones fanning out and receding. */
+/* `x` is kept between 18% and 82% so a butterfly's wings never cross the viewport
+   edge -- a clipped butterfly renders as a bare body, which reads as a stray bar.
+   `hideOnPhone` thins the flock where there is no room. */
 const BUTTERFLIES = [
-  { x: '50%', y: '15%', size: 84, dur: 1.05, delay: 0,    z: 0,    hue: 0.2, op: 1    },
-  { x: '17%', y: '30%', size: 56, dur: 0.82, delay: 0.35, z: -180, hue: 0.7, op: 0.85 },
-  { x: '83%', y: '26%', size: 60, dur: 0.94, delay: 0.6,  z: -120, hue: 0.1, op: 0.9  },
-  { x: '9%',  y: '58%', size: 42, dur: 0.74, delay: 0.15, z: -280, hue: 0.5, op: 0.65 },
-  { x: '91%', y: '55%', size: 46, dur: 0.88, delay: 0.5,  z: -240, hue: 0.8, op: 0.7  },
-  { x: '24%', y: '81%', size: 48, dur: 0.68, delay: 0.9,  z: -200, hue: 0.3, op: 0.7  },
-  { x: '76%', y: '84%', size: 40, dur: 0.79, delay: 1.2,  z: -300, hue: 0.6, op: 0.6  },
+  { x: '50%', y: '13%', size: 68, dur: 1.05, delay: 0,    z: 0,    hue: 0.2, op: 1,    hideOnPhone: false },
+  { x: '22%', y: '29%', size: 46, dur: 0.82, delay: 0.35, z: -180, hue: 0.7, op: 0.85, hideOnPhone: false },
+  { x: '78%', y: '25%', size: 50, dur: 0.94, delay: 0.6,  z: -120, hue: 0.1, op: 0.9,  hideOnPhone: false },
+  { x: '20%',  y: '58%', size: 38, dur: 0.74, delay: 0.15, z: -280, hue: 0.5, op: 0.65, hideOnPhone: true  },
+  { x: '80%', y: '55%', size: 40, dur: 0.88, delay: 0.5,  z: -240, hue: 0.8, op: 0.7,  hideOnPhone: true  },
+  { x: '26%', y: '80%', size: 40, dur: 0.68, delay: 0.9,  z: -200, hue: 0.3, op: 0.7,  hideOnPhone: false },
+  { x: '74%', y: '84%', size: 34, dur: 0.79, delay: 1.2,  z: -300, hue: 0.6, op: 0.6,  hideOnPhone: true  },
 ];
 
 /* One column per category, linking straight into that filter. */
@@ -75,20 +78,24 @@ const Landing = () => {
         <div className="perspective-far pointer-events-none absolute inset-0">
           <div className="preserve-3d relative h-full w-full">
             {BUTTERFLIES.map((b, i) => (
-              <Butterfly
+              <div
                 key={i}
-                size={b.size}
-                duration={b.dur}
-                delay={b.delay}
-                hue={b.hue}
+                className={`absolute ${b.hideOnPhone ? 'hidden sm:block' : ''}`}
                 style={{
-                  position: 'absolute',
                   left: b.x,
                   top: b.y,
                   opacity: b.op,
                   transform: `translate(-50%, -50%) translateZ(${b.z}px)`,
                 }}
-              />
+              >
+                <Butterfly
+                  size={b.size}
+                  duration={b.dur}
+                  delay={b.delay}
+                  hue={b.hue}
+                  className="origin-center scale-[0.72] sm:scale-100"
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -96,14 +103,14 @@ const Landing = () => {
         {/* headline */}
         <div className="relative z-10 mx-auto flex min-h-[92vh] max-w-2xl flex-col items-center justify-center px-6 text-center">
           <p
-            className="animate-rise mb-7 text-[0.68rem] uppercase tracking-[0.5em] text-[rgb(var(--muted))]"
+            className="animate-rise mb-6 text-[0.6rem] uppercase tracking-[0.35em] text-[rgb(var(--muted))] sm:mb-7 sm:text-[0.68rem] sm:tracking-[0.5em]"
             style={{ animationDelay: '0.05s' }}
           >
             Handcrafted in Sweden
           </p>
 
           <h1
-            className="animate-rise tracking-display text-[2.75rem] font-semibold leading-[1.02] sm:text-6xl lg:text-7xl"
+            className="animate-rise tracking-display text-[clamp(1.9rem,8.5vw,4.5rem)] font-semibold leading-[1.05]"
             style={{ animationDelay: '0.12s' }}
           >
             Smart Beauty
