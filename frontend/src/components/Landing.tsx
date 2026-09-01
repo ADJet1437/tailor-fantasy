@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { productApi, mediaUrl, Product } from '../services/api';
-import ChromeOrb from './ChromeOrb';
 import Butterfly from './Butterfly';
 
 /* Positions echo the reference composition: a large focal butterfly just above
    the horizon, with smaller ones fanning out and receding. */
 const BUTTERFLIES = [
-  { x: '50%', y: '58%', size: 96, dur: 1.05, delay: 0,    z: 0,    hue: 0.2, op: 1    },
-  { x: '15%', y: '34%', size: 56, dur: 0.82, delay: 0.35, z: -180, hue: 0.7, op: 0.85 },
-  { x: '80%', y: '28%', size: 62, dur: 0.94, delay: 0.6,  z: -120, hue: 0.1, op: 0.9  },
-  { x: '30%', y: '68%', size: 46, dur: 0.74, delay: 0.15, z: -260, hue: 0.5, op: 0.7  },
-  { x: '68%', y: '74%', size: 52, dur: 0.88, delay: 0.5,  z: -220, hue: 0.8, op: 0.75 },
-  { x: '89%', y: '55%', size: 40, dur: 0.68, delay: 0.9,  z: -320, hue: 0.3, op: 0.6  },
+  { x: '50%', y: '15%', size: 84, dur: 1.05, delay: 0,    z: 0,    hue: 0.2, op: 1    },
+  { x: '17%', y: '30%', size: 56, dur: 0.82, delay: 0.35, z: -180, hue: 0.7, op: 0.85 },
+  { x: '83%', y: '26%', size: 60, dur: 0.94, delay: 0.6,  z: -120, hue: 0.1, op: 0.9  },
+  { x: '9%',  y: '58%', size: 42, dur: 0.74, delay: 0.15, z: -280, hue: 0.5, op: 0.65 },
+  { x: '91%', y: '55%', size: 46, dur: 0.88, delay: 0.5,  z: -240, hue: 0.8, op: 0.7  },
+  { x: '24%', y: '81%', size: 48, dur: 0.68, delay: 0.9,  z: -200, hue: 0.3, op: 0.7  },
+  { x: '76%', y: '84%', size: 40, dur: 0.79, delay: 1.2,  z: -300, hue: 0.6, op: 0.6  },
 ];
 
 /* One column per category, linking straight into that filter. */
@@ -93,16 +93,16 @@ const Landing = () => {
         </div>
 
         {/* headline */}
-        <div className="relative z-10 mx-auto flex min-h-[92vh] max-w-3xl flex-col items-center justify-center px-6 text-center">
-          <ChromeOrb className="animate-rise mb-10 h-24 w-24 sm:h-28 sm:w-28" />
-
-          <p className="animate-rise mb-6 text-[0.7rem] uppercase tracking-[0.45em] text-[rgb(var(--muted))]"
-             style={{ animationDelay: '0.05s' }}>
+        <div className="relative z-10 mx-auto flex min-h-[92vh] max-w-2xl flex-col items-center justify-center px-6 text-center">
+          <p
+            className="animate-rise mb-7 text-[0.68rem] uppercase tracking-[0.5em] text-[rgb(var(--muted))]"
+            style={{ animationDelay: '0.05s' }}
+          >
             Handcrafted in Sweden
           </p>
 
           <h1
-            className="animate-rise tracking-display text-5xl font-semibold leading-[0.95] sm:text-7xl"
+            className="animate-rise tracking-display text-[2.75rem] font-semibold leading-[1.02] sm:text-6xl lg:text-7xl"
             style={{ animationDelay: '0.12s' }}
           >
             Smart Beauty
@@ -110,7 +110,7 @@ const Landing = () => {
             <span className="text-iridescent">Tailor Fantasy</span>
           </h1>
 
-          <div className="animate-rise mt-11 flex flex-wrap items-center justify-center gap-4"
+          <div className="animate-rise mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
                style={{ animationDelay: '0.28s' }}>
             <Link
               to="/shop"
@@ -122,7 +122,7 @@ const Landing = () => {
               href="#craft"
               className="rounded-full border border-white/15 px-9 py-3.5 text-sm font-medium text-[rgb(var(--chrome))] transition-colors hover:border-white/35 hover:bg-white/5"
             >
-              How it's made
+              See the range
             </a>
           </div>
         </div>
