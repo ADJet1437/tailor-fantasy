@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { productApi, mediaUrl, Product } from '../services/api';
 import Butterfly from './Butterfly';
-import ContactModal from './ContactModal';
 
 /* Positions echo the reference composition: a large focal butterfly just above
    the horizon, with smaller ones fanning out and receding. */
@@ -43,7 +42,6 @@ const RANGES = [
 
 const Landing = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [contactOpen, setContactOpen] = useState(false);
 
   useEffect(() => {
     productApi
@@ -237,32 +235,6 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* ------------------------------------------------------------- contact */}
-      <section id="contact" className="relative overflow-hidden px-6 pb-32">
-        <div className="glass edge-lit relative mx-auto max-w-5xl overflow-hidden rounded-[2rem] px-8 py-20 text-center">
-          <div
-            className="aurora left-1/2 top-1/2 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2"
-            style={{ background: 'rgb(var(--rose) / 0.3)' }}
-          />
-          <div className="relative">
-            <h2 className="tracking-display text-4xl font-semibold sm:text-5xl">
-              Contact <span className="text-iridescent">us</span>
-            </h2>
-            <button
-              onClick={() => setContactOpen(true)}
-              className="mt-10 rounded-full bg-[rgb(var(--chrome))] px-10 py-4 text-sm font-semibold text-[rgb(var(--ink))] transition-transform hover:scale-[1.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--violet))] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--ink))]"
-            >
-              Write us a message
-            </button>
-
-            <p className="mt-8 text-xs uppercase tracking-[0.25em] text-[rgb(var(--muted))]/60">
-              Handcrafted in Sweden
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </div>
   );
 };

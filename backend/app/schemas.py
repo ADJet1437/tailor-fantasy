@@ -4,7 +4,7 @@ from typing import Generic, TypeVar
 
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, computed_field
+from pydantic import BaseModel, ConfigDict, computed_field
 
 T = TypeVar("T")
 
@@ -57,19 +57,6 @@ class GeneratedImageOut(GeneratedImageIn):
 
     id: uuid.UUID
     created_at: datetime
-
-
-class ContactIn(BaseModel):
-    email: EmailStr
-    message: str = Field(min_length=10, max_length=5000)
-    # Honeypot: hidden in the UI, so only a bot fills it in. Anything here
-    # means the submission is discarded.
-    website: str = ""
-
-
-class ContactOut(BaseModel):
-    id: uuid.UUID
-    forwarded: bool
 
 
 class PagedResponse(BaseModel, Generic[T]):

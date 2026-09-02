@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 
+const SUPPORT_EMAIL = 'support@talosy.com';
+
 const supportLinks = [
-  { label: 'Contact Us', href: '#' },
+  { label: SUPPORT_EMAIL, href: `mailto:${SUPPORT_EMAIL}` },
   { label: 'FAQ', href: '#' },
 ];
 

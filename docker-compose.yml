@@ -27,12 +27,6 @@ services:
       # Inside the network the database is reachable as `db`, not localhost.
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-nailart}:${POSTGRES_PASSWORD:-nailart}@db:5432/${POSTGRES_DB:-nailart}
       MEDIA_DIR: /app/media
-      CONTACT_RECIPIENT: ${CONTACT_RECIPIENT:-support@talosy.com}
-      SMTP_HOST: ${SMTP_HOST:-}
-      SMTP_PORT: ${SMTP_PORT:-587}
-      SMTP_USER: ${SMTP_USER:-}
-      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
-      SMTP_FROM: ${SMTP_FROM:-}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://localhost:5174,http://localhost:3000}
     volumes:
       # bind-mounted so regenerating images needs no image rebuild

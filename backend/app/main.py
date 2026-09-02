@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 
 from .config import settings
 from .db import Base, engine
-from .routers import contact, generated_images, products, templates
+from .routers import generated_images, products, templates
 
 # python:3.11-slim ships no /etc/mime.types, so StaticFiles would label
 # .webp as text/plain. Register the types we actually serve.
@@ -35,7 +35,6 @@ app.add_middleware(
 app.include_router(products.router)
 app.include_router(templates.router)
 app.include_router(generated_images.router)
-app.include_router(contact.router)
 
 # Image BYTES are served from disk here; the database only stores the path.
 # StaticFiles handles ETag / Last-Modified / range requests, so browsers cache them.
