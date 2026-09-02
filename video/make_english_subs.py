@@ -25,6 +25,9 @@ BAND_TOP, BAND_BOT = 246, 332  # vertical extent of the Chinese, measured
 
 # start, end, English  -- Chinese kept alongside for review
 CAPTIONS = [
+    # The machine's opening screen says 请扫码开始制作; there is no burned-in
+    # subtitle here, so an empty zh means "size the pill to the text only".
+    (0.3,  2.3,  "Scan the QR code to start the process",       ""),
     (2.4,  5.6,  "Step 3: stick the test nail onto the tray",   "第三步把测试打印甲贴到托盘上"),
     (10.2, 14.2, "Step 4: apply the No.1 printing gel",         "第四步，涂上一号打印胶"),
     (16.9, 17.9, "Slide it back into the printing slot",        "再放进去打印口"),
@@ -105,7 +108,9 @@ def main() -> None:
 
         for i, (start, end, en, _zh) in enumerate(CAPTIONS):
             png = tmp / f"cap{i:02d}.png"
-            render(en, measure_chinese_bbox((start + end) / 2, tmp), png)
+            cover = (measure_chinese_bbox((start + end) / 2, tmp) if _zh
+                     else (W // 2, W // 2, 262, 318))
+            render(en, cover, png)
             inputs += ["-i", str(png)]
             label = f"[v{i}]"
             filters.append(
