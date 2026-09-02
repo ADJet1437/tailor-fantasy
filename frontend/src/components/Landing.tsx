@@ -149,9 +149,9 @@ const Landing = () => {
               <span className="text-iridescent"> in minutes.</span>
             </h2>
             <p className="mt-6 max-w-md leading-relaxed text-[rgb(var(--muted))]">
-              Scan the QR code to start, pick a design, print it straight onto
-              the tip, then cure it under the lamp. The whole set is done at the
-              machine — no appointment, no drying time at home.
+              Pick a design, scan the QR code to start the process, use the gel
+              and apply it to the nail, print it straight onto the tip, then cure
+              it under the lamp. No appointment, no drying time at home.
             </p>
             <Link
               to="/products?category=diy"
