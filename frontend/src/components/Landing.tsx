@@ -99,7 +99,7 @@ const Landing = () => {
         </div>
 
         {/* headline */}
-        <div className="relative z-10 mx-auto flex min-h-[92vh] max-w-2xl flex-col items-center justify-center px-6 text-center">
+        <div className="relative z-10 mx-auto flex min-h-[92vh] max-w-3xl flex-col items-center justify-center px-6 text-center">
           <p
             className="animate-rise mb-6 text-[0.6rem] uppercase tracking-[0.35em] text-[rgb(var(--muted))] sm:mb-7 sm:text-[0.68rem] sm:tracking-[0.5em]"
             style={{ animationDelay: '0.05s' }}
@@ -108,12 +108,12 @@ const Landing = () => {
           </p>
 
           <h1
-            className="animate-rise tracking-display text-[clamp(1.9rem,8.5vw,4.5rem)] font-semibold leading-[1.05]"
+            className="animate-rise tracking-display text-[clamp(1.35rem,6.5vw,3.5rem)] font-semibold leading-[1.08]"
             style={{ animationDelay: '0.12s' }}
           >
-            Smart Beauty
+            Tailor Fantasy
             <br />
-            <span className="text-iridescent">Tailor Fantasy</span>
+            <span className="text-iridescent">Bring your fantasy to life.</span>
           </h1>
 
           <div className="animate-rise mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
