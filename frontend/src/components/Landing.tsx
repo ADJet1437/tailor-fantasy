@@ -119,7 +119,7 @@ const Landing = () => {
           <div className="animate-rise mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
                style={{ animationDelay: '0.28s' }}>
             <Link
-              to="/shop"
+              to="/products"
               className="group relative overflow-hidden rounded-full bg-[rgb(var(--chrome))] px-9 py-3.5 text-sm font-semibold text-[rgb(var(--ink))] transition-transform hover:scale-[1.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--violet))] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--ink))]"
             >
               Explore the collection
@@ -173,7 +173,7 @@ const Landing = () => {
             return (
               <Link
                 key={r.slug}
-                to={`/shop?category=${r.slug}`}
+                to={`/products?category=${r.slug}`}
                 className="group bg-[rgb(var(--ink-soft))] p-9 transition-colors hover:bg-[rgb(var(--ink-raised))] focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[rgb(var(--violet))]"
               >
                 <span className="font-display text-3xl italic text-[rgb(var(--champagne))]/70">
@@ -203,7 +203,7 @@ const Landing = () => {
             </h2>
           </div>
           <Link
-            to="/shop"
+            to="/products"
             className="group text-sm font-medium text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]"
           >
             View all {products.length || ''} designs

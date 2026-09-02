@@ -10,7 +10,7 @@ const CATEGORIES = [
   { slug: 'diy',       label: 'DIY' },
 ];
 
-const ShoppingCenter = () => {
+const Products = () => {
   // the active category lives in the URL, so a filtered view is shareable
   const [searchParams, setSearchParams] = useSearchParams();
   const active = searchParams.get('category');
@@ -141,4 +141,4 @@ const ShoppingCenter = () => {
   );
 };
 
-export default ShoppingCenter;
+export default Products;

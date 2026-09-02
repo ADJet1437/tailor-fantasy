@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 
 const NAV = [
   { to: '/', label: 'Home' },
-  { to: '/shop', label: 'Shop' },
+  { to: '/products', label: 'Products' },
 ];
 
 const Header = () => {

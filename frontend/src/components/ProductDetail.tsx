@@ -44,7 +44,7 @@ const ProductDetail = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
         <p className="text-[rgb(var(--muted))]">{error ?? 'Product not found.'}</p>
-        <Link to="/" className="text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]">
+        <Link to="/products" className="text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]">
           ← Back
         </Link>
       </div>
@@ -54,7 +54,7 @@ const ProductDetail = () => {
   return (
     <div className="mx-auto max-w-4xl px-6 py-10">
       <Link
-        to="/"
+        to="/products"
         className="mb-6 inline-block text-sm text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]"
       >
         ← Back
