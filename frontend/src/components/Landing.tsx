@@ -137,6 +137,52 @@ const Landing = () => {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-[rgb(var(--ink))]" />
       </section>
 
+      {/* --------------------------------------------------------------- video */}
+      <section className="mx-auto max-w-6xl px-6 py-20 sm:py-28">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <div className="order-2 lg:order-1">
+            <p className="mb-4 text-[0.68rem] uppercase tracking-[0.5em] text-[rgb(var(--muted))]">
+              How it works
+            </p>
+            <h2 className="tracking-display text-[clamp(1.75rem,6vw,3rem)] font-semibold leading-tight">
+              From screen to nail
+              <span className="text-iridescent"> in minutes.</span>
+            </h2>
+            <p className="mt-6 max-w-md leading-relaxed text-[rgb(var(--muted))]">
+              Pick a design, print it straight onto the tip, cure it under the
+              lamp. The whole set is done at the machine — no appointment, no
+              drying time at home.
+            </p>
+            <Link
+              to="/products?category=diy"
+              className="group mt-8 inline-block text-sm font-medium text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]"
+            >
+              Browse the DIY range
+              <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">
+                →
+              </span>
+            </Link>
+          </div>
+
+          {/* the clip is 9:16, so it is capped rather than stretched across the column */}
+          <div className="order-1 lg:order-2">
+            <div className="edge-lit mx-auto w-full max-w-[320px] overflow-hidden rounded-3xl bg-[rgb(var(--ink-soft))] shadow-2xl sm:max-w-[360px]">
+              <video
+                src="/diy-printing.mp4"
+                poster="/diy-printing-poster.jpg"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                controls
+                className="block aspect-[544/960] w-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ------------------------------------------------------------- marquee */}
       {products.length > 0 && (
         <div className="relative overflow-hidden border-y border-white/[0.06] py-5">
