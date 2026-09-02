@@ -101,12 +101,12 @@ const Landing = () => {
         {/* headline */}
         <div className="relative z-10 mx-auto flex min-h-[92vh] max-w-3xl flex-col items-center justify-center px-6 text-center">
           <h1
-            className="animate-rise tracking-display text-[clamp(1.35rem,6.5vw,3.5rem)] font-semibold leading-[1.08]"
+            className="animate-rise tracking-display text-[clamp(1.5rem,7.5vw,4rem)] font-semibold leading-[1.08]"
             style={{ animationDelay: '0.12s' }}
           >
             Tailor Fantasy
             <br />
-            <span className="text-iridescent">Bring your fantasy to life.</span>
+            <span className="text-iridescent">Bring fantasy to life.</span>
           </h1>
 
           <div className="animate-rise mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
