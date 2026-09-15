@@ -1,16 +1,7 @@
 import { Link } from 'react-router-dom';
+import { useT } from '../i18n/useLanguage';
 
 const SUPPORT_EMAIL = 'support@talosy.com';
-
-const supportLinks = [
-  { label: SUPPORT_EMAIL, href: `mailto:${SUPPORT_EMAIL}` },
-  { label: 'FAQ', href: '#' },
-];
-
-const legalLinks = [
-  { label: 'Privacy Policy', to: '/privacy' },
-  { label: 'Terms of Service', to: '/terms' },
-];
 
 // Brand marks as inline SVG -- no external icon library or CDN request.
 const socials = [
@@ -28,6 +19,12 @@ const socials = [
 
 const Footer = () => {
   const year = new Date().getFullYear();
+  const t = useT();
+
+  const legalLinks = [
+    { label: t.footer.privacy, to: '/privacy' },
+    { label: t.footer.terms, to: '/terms' },
+  ];
 
   return (
     <footer className="border-t border-white/[0.06] bg-[rgb(var(--ink-soft))] text-[rgb(var(--muted))]">
@@ -41,34 +38,41 @@ const Footer = () => {
             Tailor Fantasy
           </h2>
           <p className="text-sm leading-relaxed text-[rgb(var(--muted))]">
-            DIY nail art kits and supplies for people who would rather make it
-            themselves.
+            {t.footer.tagline}
           </p>
         </div>
 
         {/* Support */}
         <div>
           <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-[rgb(var(--chrome))]">
-            Support
+            {t.footer.support}
           </h3>
           <ul className="space-y-2 text-sm">
-            {supportLinks.map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.href}
-                  className="text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
+            <li>
+              <a
+                href={`mailto:${SUPPORT_EMAIL}`}
+                className="text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]"
+              >
+                {SUPPORT_EMAIL}
+              </a>
+            </li>
+            <li>
+              {/* Routed rather than a bare href so reaching the FAQ from
+                  /products or a legal page does not reload the document. */}
+              <Link
+                to="/#faq"
+                className="text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]"
+              >
+                {t.nav.faq}
+              </Link>
+            </li>
           </ul>
         </div>
 
         {/* Legal */}
         <div>
           <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-[rgb(var(--chrome))]">
-            Legal
+            {t.footer.legal}
           </h3>
           <ul className="space-y-2 text-sm">
             {legalLinks.map((link) => (
@@ -88,7 +92,7 @@ const Footer = () => {
         <div>
           <div className="inline-block">
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-[rgb(var(--chrome))]">
-              Follow Us
+              {t.footer.follow}
             </h3>
             <div className="flex justify-center gap-2">
               {socials.map((social) => (
@@ -115,7 +119,7 @@ const Footer = () => {
 
       <div className="border-t border-white/[0.06]">
         <div className="container mx-auto px-4 py-5 text-center text-xs text-[rgb(var(--muted))]/60">
-          <p>&copy; {year} Tailor Fantasy. All rights reserved.</p>
+          <p>{t.footer.rights(year)}</p>
         </div>
       </div>
     </footer>

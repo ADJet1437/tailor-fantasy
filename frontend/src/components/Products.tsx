@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { productApi, mediaUrl, Product } from '../services/api';
+import { useT } from '../i18n/useLanguage';
 
-/** Slug must match the `category` column the backend seeds. */
+/** Slug must match the `category` column the backend seeds. `null` is the
+    unfiltered view; `key` looks the label and heading up in the catalogue. */
 const CATEGORIES = [
-  { slug: null,        label: 'All' },
-  { slug: 'press-on',  label: 'Press-On' },
-  { slug: 'handcraft', label: 'Handcraft' },
-  { slug: 'diy',       label: 'DIY' },
-];
+  { slug: null,        key: 'all' },
+  { slug: 'press-on',  key: 'press-on' },
+  { slug: 'handcraft', key: 'handcraft' },
+  { slug: 'diy',       key: 'diy' },
+] as const;
 
 const Products = () => {
   // the active category lives in the URL, so a filtered view is shareable
@@ -16,17 +18,19 @@ const Products = () => {
   const active = searchParams.get('category');
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [failed, setFailed] = useState(false);
+  const t = useT();
 
   const loadProducts = useCallback(async () => {
     try {
       setLoading(true);
-      setError(null);
+      setFailed(false);
       // 108 products in the catalog; request them all rather than the default page of 100
       const response = await productApi.list(200, 0, active ?? undefined);
       setProducts(response.data);
     } catch (err) {
-      setError('Failed to load products. Please try again.');
+      // the flag, not the message: the message must follow the active language
+      setFailed(true);
       console.error('Error loading products:', err);
     } finally {
       setLoading(false);
@@ -42,22 +46,22 @@ const Products = () => {
       <div className="flex justify-center items-center min-h-[400px]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[rgb(var(--violet))] mx-auto mb-4"></div>
-          <p className="text-[rgb(var(--muted))]">Loading products…</p>
+          <p className="text-[rgb(var(--muted))]">{t.products.loading}</p>
         </div>
       </div>
     );
   }
 
-  if (error) {
+  if (failed) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
         <div className="glass rounded-2xl p-6 max-w-md">
-          <p className="text-center text-[rgb(var(--rose))]">{error}</p>
+          <p className="text-center text-[rgb(var(--rose))]">{t.products.loadError}</p>
           <button
             onClick={loadProducts}
             className="mt-4 w-full rounded-full bg-[rgb(var(--chrome))] px-4 py-2 text-sm font-semibold text-[rgb(var(--ink))] transition-transform hover:scale-[1.02]"
           >
-            Try Again
+            {t.products.retry}
           </button>
         </div>
       </div>
@@ -68,10 +72,12 @@ const Products = () => {
     <div className="mx-auto max-w-6xl px-6 py-10 sm:py-16">
       <div className="mb-12">
         <p className="mb-4 text-[0.7rem] uppercase tracking-[0.4em] text-[rgb(var(--muted))]">
-          The collection
+          {t.products.eyebrow}
         </p>
         <h1 className="tracking-display text-[clamp(1.75rem,7vw,3rem)] font-semibold">
-          {CATEGORIES.find((c) => c.slug === active)?.label ?? 'All'} designs
+          {t.products.headings[
+            CATEGORIES.find((c) => c.slug === active)?.key ?? 'all'
+          ]}
         </h1>
 
         <nav className="-mx-6 mt-7 flex gap-2 overflow-x-auto px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:mt-8 sm:flex-wrap sm:overflow-visible sm:px-0">
@@ -79,7 +85,7 @@ const Products = () => {
             const isActive = c.slug === active;
             return (
               <button
-                key={c.label}
+                key={c.key}
                 onClick={() =>
                   setSearchParams(c.slug ? { category: c.slug } : {}, { replace: true })
                 }
@@ -90,7 +96,7 @@ const Products = () => {
                     : 'border border-white/10 text-[rgb(var(--muted))] hover:border-white/25 hover:text-[rgb(var(--chrome))]'
                 }`}
               >
-                {c.label}
+                {t.products.filters[c.key]}
               </button>
             );
           })}
@@ -98,7 +104,7 @@ const Products = () => {
       </div>
       {products.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-[rgb(var(--muted))]">No products available yet.</p>
+          <p className="text-[rgb(var(--muted))]">{t.products.empty}</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -118,7 +124,7 @@ const Products = () => {
                 {/* The whole card is the link; this is a hover affordance, not the tap target. */}
                 <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/35">
                   <span className="translate-y-2 rounded-full bg-[rgb(var(--chrome))] px-5 py-2 text-sm font-semibold text-[rgb(var(--ink))] opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                    View
+                    {t.products.view}
                   </span>
                 </div>
               </div>
