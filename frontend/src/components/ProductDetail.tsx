@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { productApi, mediaUrl, Product } from '../services/api';
+import { useT } from '../i18n/useLanguage';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [failed, setFailed] = useState(false);
+  const t = useT();
 
   useEffect(() => {
     if (!id) return;
@@ -15,11 +17,12 @@ const ProductDetail = () => {
     const load = async () => {
       try {
         setLoading(true);
-        setError(null);
+        setFailed(false);
         const data = await productApi.get(id);
         if (!cancelled) setProduct(data);
       } catch (err) {
-        if (!cancelled) setError('Failed to load this product.');
+        // the flag, not the message: the message must follow the active language
+        if (!cancelled) setFailed(true);
         console.error('Error loading product:', err);
       } finally {
         if (!cancelled) setLoading(false);
@@ -40,12 +43,14 @@ const ProductDetail = () => {
     );
   }
 
-  if (error || !product) {
+  if (failed || !product) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
-        <p className="text-[rgb(var(--muted))]">{error ?? 'Product not found.'}</p>
+        <p className="text-[rgb(var(--muted))]">
+          {failed ? t.detail.loadError : t.detail.notFound}
+        </p>
         <Link to="/products" className="text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]">
-          ← Back
+          {t.detail.back}
         </Link>
       </div>
     );
@@ -57,7 +62,7 @@ const ProductDetail = () => {
         to="/products"
         className="mb-6 inline-block text-sm text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]"
       >
-        ← Back
+        {t.detail.back}
       </Link>
 
       {product.detail_url ? (
@@ -68,7 +73,7 @@ const ProductDetail = () => {
         />
       ) : (
         <p className="py-16 text-center text-[rgb(var(--muted))]">
-          No detail image available.
+          {t.detail.noImage}
         </p>
       )}
     </div>

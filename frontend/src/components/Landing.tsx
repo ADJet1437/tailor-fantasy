@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { productApi, mediaUrl, Product } from '../services/api';
+import { useT } from '../i18n/useLanguage';
 import Butterfly from './Butterfly';
 
 /* Positions echo the reference composition: a large focal butterfly just above
@@ -18,37 +19,39 @@ const BUTTERFLIES = [
   { x: '74%', y: '84%', size: 34, dur: 0.79, delay: 1.2,  z: -300, hue: 0.6, op: 0.6,  hideOnPhone: true  },
 ];
 
-/* One column per category, linking straight into that filter. */
+/* One column per category, linking straight into that filter. Titles and body
+   copy live in the string catalogue, keyed by slug. */
 const RANGES = [
-  {
-    slug: 'press-on',
-    n: '01',
-    title: 'Press-On',
-    body: 'Ready to wear straight out of the box. No lamp, no tools, no drying time — press them on and go.',
-  },
-  {
-    slug: 'handcraft',
-    n: '02',
-    title: 'Handcraft',
-    body: 'Hand-painted one set at a time. A premium finish for anyone who wants the craft without the salon chair.',
-  },
-  {
-    slug: 'diy',
-    n: '03',
-    title: 'DIY',
-    body: 'The everyday range. Printed tips you shape, style and make your own.',
-  },
-];
+  { slug: 'press-on', n: '01' },
+  { slug: 'handcraft', n: '02' },
+  { slug: 'diy', n: '03' },
+] as const;
 
 const Landing = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loaded, setLoaded] = useState(false);
+  const { hash, key } = useLocation();
+  const t = useT();
 
   useEffect(() => {
     productApi
       .list(200, 0)
       .then((r) => setProducts(r.data))
-      .catch((err) => console.error('Error loading products:', err));
+      .catch((err) => console.error('Error loading products:', err))
+      .finally(() => setLoaded(true));
   }, []);
+
+  /* React Router does not act on the hash, so `/#faq` from the header or footer
+     is handled here. Waiting for `loaded` matters: the featured grid is empty
+     until the request resolves, so scrolling before then lands short of the
+     section. `loaded` is also set when the request fails, so a dead API leaves
+     the link working rather than inert. `key` is in the deps so clicking FAQ
+     again after scrolling away still jumps back -- the hash alone is unchanged
+     by that click, but every navigation gets a fresh key. */
+  useEffect(() => {
+    if (!hash || !loaded) return;
+    document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+  }, [hash, loaded, key]);
 
   const featured = products.slice(0, 8);
 
@@ -106,7 +109,7 @@ const Landing = () => {
           >
             Tailor Fantasy
             <br />
-            <span className="text-iridescent">Bring fantasy to life.</span>
+            <span className="text-iridescent">{t.hero.tagline}</span>
           </h1>
 
           <div className="animate-rise mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
@@ -115,13 +118,13 @@ const Landing = () => {
               to="/products"
               className="group relative overflow-hidden rounded-full bg-[rgb(var(--chrome))] px-9 py-3.5 text-sm font-semibold text-[rgb(var(--ink))] transition-transform hover:scale-[1.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--violet))] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--ink))]"
             >
-              Explore the collection
+              {t.hero.explore}
             </Link>
             <a
               href="#craft"
               className="rounded-full border border-white/15 px-9 py-3.5 text-sm font-medium text-[rgb(var(--chrome))] transition-colors hover:border-white/35 hover:bg-white/5"
             >
-              See the range
+              {t.hero.seeRange}
             </a>
           </div>
         </div>
@@ -152,17 +155,18 @@ const Landing = () => {
       <section id="craft" className="mx-auto max-w-6xl scroll-mt-24 px-6 py-28">
         <div className="mb-16 max-w-2xl">
           <p className="mb-4 text-[0.7rem] uppercase tracking-[0.4em] text-[rgb(var(--muted))]">
-            The range
+            {t.ranges.eyebrow}
           </p>
           <h2 className="tracking-display text-4xl font-semibold leading-tight sm:text-5xl">
-            Three ways
-            <span className="font-display italic text-iridescent"> to wear it.</span>
+            {t.ranges.headingLead}
+            <span className="font-display italic text-iridescent">{t.ranges.headingAccent}</span>
           </h2>
         </div>
 
         <div className="grid gap-px overflow-hidden rounded-3xl bg-white/[0.07] sm:grid-cols-3">
           {RANGES.map((r) => {
             const count = products.filter((p) => p.category === r.slug).length;
+            const copy = t.ranges.items[r.slug];
             return (
               <Link
                 key={r.slug}
@@ -172,10 +176,10 @@ const Landing = () => {
                 <span className="font-display text-3xl italic text-[rgb(var(--champagne))]/70">
                   {r.n}
                 </span>
-                <h3 className="mb-3 mt-5 text-lg font-semibold">{r.title}</h3>
-                <p className="text-sm leading-relaxed text-[rgb(var(--muted))]">{r.body}</p>
+                <h3 className="mb-3 mt-5 text-lg font-semibold">{copy.title}</h3>
+                <p className="text-sm leading-relaxed text-[rgb(var(--muted))]">{copy.body}</p>
                 <span className="mt-6 inline-block text-xs uppercase tracking-[0.2em] text-[rgb(var(--muted))]/70 transition-colors group-hover:text-[rgb(var(--chrome))]">
-                  {count > 0 ? `${count} designs` : 'Browse'}
+                  {count > 0 ? t.ranges.designCount(count) : t.ranges.browse}
                   <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">→</span>
                 </span>
               </Link>
@@ -189,17 +193,17 @@ const Landing = () => {
         <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="mb-4 text-[0.7rem] uppercase tracking-[0.4em] text-[rgb(var(--muted))]">
-              Selected pieces
+              {t.featured.eyebrow}
             </p>
             <h2 className="tracking-display text-4xl font-semibold sm:text-5xl">
-              This season
+              {t.featured.heading}
             </h2>
           </div>
           <Link
             to="/products"
             className="group text-sm font-medium text-[rgb(var(--muted))] transition-colors hover:text-[rgb(var(--chrome))]"
           >
-            View all {products.length || ''} designs
+            {t.featured.viewAll(products.length)}
             <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">→</span>
           </Link>
         </div>
@@ -225,6 +229,39 @@ const Landing = () => {
               </div>
             </Link>
           ))}
+        </div>
+      </section>
+
+      {/* ----------------------------------------------------------------- faq */}
+      <section id="faq" className="scroll-mt-24 border-t border-white/[0.06] bg-[rgb(var(--ink-soft))]">
+        <div className="mx-auto max-w-3xl px-6 py-28">
+          <div className="mb-14">
+            <h2 className="tracking-display text-4xl font-semibold leading-tight sm:text-5xl">
+              {t.faq.heading}
+            </h2>
+          </div>
+
+          {/* <details> gives keyboard and screen-reader behaviour for free -- no state, no library */}
+          <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
+            {t.faq.items.map((f) => (
+              <details key={f.q} className="group py-6">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-medium text-[rgb(var(--chrome))] transition-colors hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--violet))] sm:text-lg">
+                  {f.q}
+                  {/* plus turning into a minus; rotation is cheaper than swapping glyphs */}
+                  <span
+                    aria-hidden="true"
+                    className="relative h-4 w-4 shrink-0 text-[rgb(var(--muted))] transition-transform duration-300 group-open:rotate-45"
+                  >
+                    <span className="absolute left-0 top-1/2 h-px w-4 -translate-y-1/2 bg-current" />
+                    <span className="absolute left-1/2 top-0 h-4 w-px -translate-x-1/2 bg-current transition-opacity group-open:opacity-0" />
+                  </span>
+                </summary>
+                <p className="mt-4 max-w-2xl pr-10 text-sm leading-relaxed text-[rgb(var(--muted))]">
+                  {f.a}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 
