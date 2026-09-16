@@ -11,33 +11,27 @@ export const en = {
     home: 'Home',
     products: 'Products',
     faq: 'FAQ',
+    contact: 'Contact us',
     language: 'Language',
+    menu: 'Menu',
+    closeMenu: 'Close menu',
   },
   hero: {
-    tagline: 'Bring fantasy to life.',
-    explore: 'Explore the collection',
-    seeRange: 'See the range',
+    checkSize: 'Check your size',
   },
-  ranges: {
-    eyebrow: 'The range',
-    headingLead: 'Three ways',
-    headingAccent: ' to wear it.',
-    browse: 'Browse',
-    designCount: (n: number) => `${n} designs`,
-    items: {
-      'press-on': {
-        title: 'Press-On',
-        body: 'Ready to wear straight out of the box. No lamp, no tools, no drying time — press them on and go.',
-      },
-      handcraft: {
-        title: 'Handcraft',
-        body: 'Hand-painted one set at a time. A premium finish for anyone who wants the craft without the salon chair.',
-      },
-      diy: {
-        title: 'DIY',
-        body: 'The everyday range. Printed tips you shape, style and make your own.',
-      },
-    },
+  sizing: {
+    heading: 'Find your size',
+    // The printed insert measures the thumb only, and that one width sets the
+    // size of the whole set -- worth saying outright so nobody measures ten.
+    note: 'Measure your thumbnail at its widest point. That single width sets the size for the whole set.',
+    widthLabel: 'Width',
+    sizeLabel: 'Size',
+    caption: 'Nail size by thumbnail width',
+    infoLabel: 'About measuring',
+    infoTitle: 'About AI measurement',
+    infoBody:
+      'AI measurement is not accurate yet and we are working on it. For now, please use the measuring tools provided in the machine to find your size.',
+    close: 'Close',
   },
   featured: {
     eyebrow: 'Selected pieces',
@@ -109,33 +103,25 @@ export const sv: typeof en = {
     home: 'Hem',
     products: 'Produkter',
     faq: 'FAQ',
+    contact: 'Kontakta oss',
     language: 'Språk',
+    menu: 'Meny',
+    closeMenu: 'Stäng menyn',
   },
   hero: {
-    tagline: 'Väck fantasin till liv.',
-    explore: 'Utforska kollektionen',
-    seeRange: 'Se sortimentet',
+    checkSize: 'Kolla din storlek',
   },
-  ranges: {
-    eyebrow: 'Sortimentet',
-    headingLead: 'Tre sätt',
-    headingAccent: ' att bära det.',
-    browse: 'Bläddra',
-    designCount: (n: number) => `${n} designer`,
-    items: {
-      'press-on': {
-        title: 'Press-on',
-        body: 'Färdiga att bära direkt ur förpackningen. Ingen lampa, inga verktyg, ingen torktid — tryck fast och gå.',
-      },
-      handcraft: {
-        title: 'Handmålat',
-        body: 'Handmålade, ett set i taget. Ett exklusivt utförande för dig som vill ha hantverket utan salongsstolen.',
-      },
-      diy: {
-        title: 'DIY',
-        body: 'Vardagssortimentet. Tryckta tippar som du formar, stylar och gör till dina egna.',
-      },
-    },
+  sizing: {
+    heading: 'Hitta din storlek',
+    note: 'Mät tumnageln på dess bredaste punkt. Den bredden avgör storleken för hela setet.',
+    widthLabel: 'Bredd',
+    sizeLabel: 'Storlek',
+    caption: 'Nagelstorlek utifrån tumnagelns bredd',
+    infoLabel: 'Om mätning',
+    infoTitle: 'Om AI-mätning',
+    infoBody:
+      'AI-mätningen är inte tillförlitlig ännu och vi arbetar på det. Använd så länge mätverktygen som finns i maskinen för att hitta din storlek.',
+    close: 'Stäng',
   },
   featured: {
     eyebrow: 'Utvalda favoriter',

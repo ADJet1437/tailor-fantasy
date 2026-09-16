@@ -19,17 +19,20 @@ const BUTTERFLIES = [
   { x: '74%', y: '84%', size: 34, dur: 0.79, delay: 1.2,  z: -300, hue: 0.6, op: 0.6,  hideOnPhone: true  },
 ];
 
-/* One column per category, linking straight into that filter. Titles and body
-   copy live in the string catalogue, keyed by slug. */
-const RANGES = [
-  { slug: 'press-on', n: '01' },
-  { slug: 'handcraft', n: '02' },
-  { slug: 'diy', n: '03' },
-] as const;
+/* From the insert that ships with every set: thumbnail width at its widest
+   point, in millimetres, mapped to the size code. The thumb is the reference
+   for the whole set -- one measurement, not ten. */
+const SIZES = [
+  { width: '14 mm', size: 'XS' },
+  { width: '15 mm', size: 'S' },
+  { width: '16 mm', size: 'M' },
+  { width: '17 mm', size: 'L' },
+];
 
 const Landing = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
   const { hash, key } = useLocation();
   const t = useT();
 
@@ -52,6 +55,13 @@ const Landing = () => {
     if (!hash || !loaded) return;
     document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
   }, [hash, loaded, key]);
+
+  useEffect(() => {
+    if (!infoOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setInfoOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [infoOpen]);
 
   const featured = products.slice(0, 8);
 
@@ -101,33 +111,125 @@ const Landing = () => {
           </div>
         </div>
 
-        {/* headline */}
+        {/* calls to action over the butterfly field */}
         <div className="relative z-10 mx-auto flex min-h-[92vh] max-w-3xl flex-col items-center justify-center px-6 text-center">
-          <h1
-            className="animate-rise tracking-display text-[clamp(1.5rem,7.5vw,4rem)] font-semibold leading-[1.08]"
-            style={{ animationDelay: '0.12s' }}
-          >
-            Tailor Fantasy
-            <br />
-            <span className="text-iridescent">{t.hero.tagline}</span>
-          </h1>
-
-          <div className="animate-rise mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
+          <div className="animate-rise flex flex-wrap items-center justify-center gap-3 sm:gap-4"
                style={{ animationDelay: '0.28s' }}>
             <Link
-              to="/products"
+              to="/#size"
               className="group relative overflow-hidden rounded-full bg-[rgb(var(--chrome))] px-9 py-3.5 text-sm font-semibold text-[rgb(var(--ink))] transition-transform hover:scale-[1.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--violet))] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--ink))]"
             >
-              {t.hero.explore}
+              {t.hero.checkSize}
             </Link>
-            <a
-              href="#craft"
+            <Link
+              to="/#faq"
               className="rounded-full border border-white/15 px-9 py-3.5 text-sm font-medium text-[rgb(var(--chrome))] transition-colors hover:border-white/35 hover:bg-white/5"
             >
-              {t.hero.seeRange}
-            </a>
+              {t.nav.faq}
+            </Link>
+          </div>
+
+          {/* The size chart sits in the hero itself rather than behind a link:
+              picking the wrong width is the one mistake a customer cannot undo
+              after the set ships. */}
+          <div
+            id="size"
+            className="animate-rise mt-12 w-full max-w-md scroll-mt-28"
+            style={{ animationDelay: '0.42s' }}
+          >
+            <div className="glass rounded-2xl px-4 py-5 sm:px-6">
+              <div className="flex items-center justify-between gap-3">
+                <h2 className="text-sm font-semibold text-[rgb(var(--chrome))]">
+                  {t.sizing.heading}
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => setInfoOpen(true)}
+                  aria-label={t.sizing.infoLabel}
+                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[rgb(var(--cyan))]/40 bg-[rgb(var(--cyan))]/10 font-display text-sm italic leading-none text-[rgb(var(--cyan))] transition-colors hover:border-[rgb(var(--cyan))]/70 hover:bg-[rgb(var(--cyan))]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--violet))]"
+                >
+                  i
+                </button>
+              </div>
+
+              <table className="mt-4 w-full border-collapse text-center">
+                <caption className="sr-only">{t.sizing.caption}</caption>
+                <tbody>
+                  <tr>
+                    <th
+                      scope="row"
+                      className="pr-3 text-left text-[0.65rem] uppercase tracking-[0.2em] text-[rgb(var(--muted))]"
+                    >
+                      {t.sizing.widthLabel}
+                    </th>
+                    {SIZES.map((s) => (
+                      <td
+                        key={s.size}
+                        className="border-l border-white/[0.08] px-1 py-1.5 text-sm text-[rgb(var(--chrome))]"
+                      >
+                        {s.width}
+                      </td>
+                    ))}
+                  </tr>
+                  <tr>
+                    <th
+                      scope="row"
+                      className="pr-3 text-left text-[0.65rem] uppercase tracking-[0.2em] text-[rgb(var(--muted))]"
+                    >
+                      {t.sizing.sizeLabel}
+                    </th>
+                    {SIZES.map((s) => (
+                      <td
+                        key={s.size}
+                        className="border-l border-t border-white/[0.08] px-1 py-1.5 font-display text-lg italic text-[rgb(var(--champagne))]"
+                      >
+                        {s.size}
+                      </td>
+                    ))}
+                  </tr>
+                </tbody>
+              </table>
+
+              <p className="mt-4 text-left text-xs leading-relaxed text-[rgb(var(--muted))]">
+                {t.sizing.note}
+              </p>
+            </div>
           </div>
         </div>
+
+        {/* Above the sticky header's z-50 so the bar cannot overlap it. */}
+        {infoOpen && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-6">
+            <div
+              aria-hidden="true"
+              onClick={() => setInfoOpen(false)}
+              className="absolute inset-0 bg-black/70"
+            />
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="sizing-info-title"
+              className="relative w-full max-w-sm rounded-2xl border border-white/10 bg-[rgb(var(--ink-raised))] p-6 text-left shadow-2xl shadow-black/60"
+            >
+              <h3
+                id="sizing-info-title"
+                className="text-base font-semibold text-[rgb(var(--chrome))]"
+              >
+                {t.sizing.infoTitle}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-[rgb(var(--muted))]">
+                {t.sizing.infoBody}
+              </p>
+              <button
+                type="button"
+                onClick={() => setInfoOpen(false)}
+                className="mt-6 w-full rounded-full bg-[rgb(var(--chrome))] px-4 py-2.5 text-sm font-semibold text-[rgb(var(--ink))] transition-transform hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--violet))]"
+              >
+                {t.sizing.close}
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* fade into the next section */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-[rgb(var(--ink))]" />
@@ -150,43 +252,6 @@ const Landing = () => {
           <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[rgb(var(--ink))] to-transparent" />
         </div>
       )}
-
-      {/* --------------------------------------------------------------- craft */}
-      <section id="craft" className="mx-auto max-w-6xl scroll-mt-24 px-6 py-28">
-        <div className="mb-16 max-w-2xl">
-          <p className="mb-4 text-[0.7rem] uppercase tracking-[0.4em] text-[rgb(var(--muted))]">
-            {t.ranges.eyebrow}
-          </p>
-          <h2 className="tracking-display text-4xl font-semibold leading-tight sm:text-5xl">
-            {t.ranges.headingLead}
-            <span className="font-display italic text-iridescent">{t.ranges.headingAccent}</span>
-          </h2>
-        </div>
-
-        <div className="grid gap-px overflow-hidden rounded-3xl bg-white/[0.07] sm:grid-cols-3">
-          {RANGES.map((r) => {
-            const count = products.filter((p) => p.category === r.slug).length;
-            const copy = t.ranges.items[r.slug];
-            return (
-              <Link
-                key={r.slug}
-                to={`/products?category=${r.slug}`}
-                className="group bg-[rgb(var(--ink-soft))] p-9 transition-colors hover:bg-[rgb(var(--ink-raised))] focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[rgb(var(--violet))]"
-              >
-                <span className="font-display text-3xl italic text-[rgb(var(--champagne))]/70">
-                  {r.n}
-                </span>
-                <h3 className="mb-3 mt-5 text-lg font-semibold">{copy.title}</h3>
-                <p className="text-sm leading-relaxed text-[rgb(var(--muted))]">{copy.body}</p>
-                <span className="mt-6 inline-block text-xs uppercase tracking-[0.2em] text-[rgb(var(--muted))]/70 transition-colors group-hover:text-[rgb(var(--chrome))]">
-                  {count > 0 ? t.ranges.designCount(count) : t.ranges.browse}
-                  <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">→</span>
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
 
       {/* ------------------------------------------------------------ featured */}
       <section className="mx-auto max-w-6xl px-6 pb-28">

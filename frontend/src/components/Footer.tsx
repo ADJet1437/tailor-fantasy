@@ -27,7 +27,10 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="border-t border-white/[0.06] bg-[rgb(var(--ink-soft))] text-[rgb(var(--muted))]">
+    <footer
+      id="contact"
+      className="scroll-mt-24 border-t border-white/[0.06] bg-[rgb(var(--ink-soft))] text-[rgb(var(--muted))]"
+    >
       {/* echoes the header gradient */}
       
 
