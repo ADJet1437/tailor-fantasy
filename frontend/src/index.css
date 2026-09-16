@@ -189,16 +189,20 @@
   );
 }
 
+/* The fold stops at 52deg, not 74. Past roughly 60 the wings project to a few
+   pixels and the champagne body is all that is left -- which reads as a stray
+   gold bar rather than a butterfly, and freezes that way in a screenshot. At
+   52 the wings keep about 62% of their width, so the body is never alone. */
 @keyframes flap-left {
   0%,
   100% { transform: rotateY(-14deg); }
-  50%  { transform: rotateY(-74deg); }
+  50%  { transform: rotateY(-52deg); }
 }
 
 @keyframes flap-right {
   0%,
   100% { transform: rotateY(14deg); }
-  50%  { transform: rotateY(74deg); }
+  50%  { transform: rotateY(52deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
