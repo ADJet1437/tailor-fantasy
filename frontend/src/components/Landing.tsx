@@ -235,6 +235,31 @@ const Landing = () => {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-[rgb(var(--ink))]" />
       </section>
 
+      {/* --------------------------------------------------------------- video */}
+      <section className="px-6 py-20 sm:py-28">
+        <p className="mb-8 text-center text-[0.68rem] uppercase tracking-[0.5em] text-[rgb(var(--muted))]">
+          {t.howItWorks.eyebrow}
+        </p>
+
+        {/* The clip is 9:16, so "full span" is bounded by height, not width:
+            at full container width it would stand two thousand pixels tall.
+            The width tracks 80% of the viewport height at that ratio, and
+            w-full caps it on phones where the column is the narrower limit. */}
+        <div className="edge-lit mx-auto w-full max-w-[calc(80vh*0.5625)] overflow-hidden rounded-3xl bg-[rgb(var(--ink-soft))] shadow-2xl shadow-black/50">
+          {/* Nearly two minutes with a soundtrack, so it waits to be asked:
+              controls, a poster, and preload="none" so none of the 8 MB is
+              fetched until someone presses play. */}
+          <video
+            src="/how-it-works.mp4"
+            poster="/how-it-works-poster.jpg"
+            controls
+            playsInline
+            preload="none"
+            className="block aspect-[540/960] w-full"
+          />
+        </div>
+      </section>
+
       {/* ------------------------------------------------------------- marquee */}
       {products.length > 0 && (
         <div className="relative overflow-hidden border-y border-white/[0.06] py-5">
@@ -321,9 +346,11 @@ const Landing = () => {
                     <span className="absolute left-1/2 top-0 h-4 w-px -translate-x-1/2 bg-current transition-opacity group-open:opacity-0" />
                   </span>
                 </summary>
-                <p className="mt-4 max-w-2xl pr-10 text-sm leading-relaxed text-[rgb(var(--muted))]">
-                  {f.a}
-                </p>
+                <div className="mt-4 max-w-2xl space-y-3 pr-10 text-sm leading-relaxed text-[rgb(var(--muted))]">
+                  {f.a.map((para) => (
+                    <p key={para}>{para}</p>
+                  ))}
+                </div>
               </details>
             ))}
           </div>
